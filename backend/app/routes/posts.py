@@ -10,6 +10,7 @@ from schemas.post import PostCreate, PostResponse, PostUpdate, PostDelete
 router = APIRouter(prefix="/posts", tags=["posts"])
 
 
+
 @router.get("/", response_model=List[PostResponse])
 def posts(db: Session = Depends(get_db)):
     return db.query(Post).all()
