@@ -1,4 +1,8 @@
 
+#app
+#routes
+#posts.py
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
@@ -7,8 +11,8 @@ from database import get_db
 from models import Post
 from schemas.post import PostCreate, PostResponse, PostUpdate, PostDelete
 
-router = APIRouter(prefix="/posts", tags=["posts"])
 
+router = APIRouter(prefix="/posts", tags=["posts"])
 
 
 @router.get("/", response_model=List[PostResponse])
