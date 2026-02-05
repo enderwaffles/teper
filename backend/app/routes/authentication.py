@@ -3,8 +3,10 @@
 #routes
 #authentication.py
 
+
+
 #bibliotecs
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -12,11 +14,27 @@ from typing import List
 from database import get_db
 from models import User
 from schemas.user import UserSignup, UserLogin
-from auth.security import hash_password, verify_password, create_token, decode_token
+
+#auth
+from auth.token import create_token, decode_token
+from auth.hash import hash_password, verify_password
+from auth.cookie import get_current_user, set_auth_cookie, clear_auth_cookie
 
 
+
+#configs
 router = APIRouter(prefix="", tags=["authentication"])
 
+
+
+#core
+@router.get("/protected")
+def protected(user: User = Depends(get_current_user)):
+    return {
+        "message": "access free",
+        "id": user.id,
+        "name": user.name
+    }
 
 @router.post("/signup")
 def signup(data: UserSignup, db: Session = Depends(get_db)):
@@ -31,7 +49,7 @@ def signup(data: UserSignup, db: Session = Depends(get_db)):
     return {"message": "you signed up;)"}
 
 @router.post("/login")
-def login(data: UserLogin, db: Session = Depends(get_db)):
+def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.name == data.name).first()
     if not user:
         raise HTTPException(status_code=404, detail="wrong name")
@@ -39,9 +57,10 @@ def login(data: UserLogin, db: Session = Depends(get_db)):
     if not verified:
         raise HTTPException(status_code=401, detail="wrong password")
     token = create_token(user.id)
-    return {"access_token": token, "token_type": "bearer"}
+    set_auth_cookie(response, token)
+    return {"message": "logged in", "token_type": "cookie"}
 
-
-
-
-
+@router.post("/logout")
+def logout(response: Response):
+    clear_auth_cookie(response)
+    return {"message": "logged out"}

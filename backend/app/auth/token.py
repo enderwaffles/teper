@@ -3,8 +3,9 @@
 #auth
 #security.py
 
+
+
 #bibliotecs
-from werkzeug.security import generate_password_hash, check_password_hash
 from jose import jwt, JWTError
 import os
 from dotenv import load_dotenv
@@ -13,20 +14,16 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 
 
+
+#configs
 load_dotenv()
 secretkey = os.getenv("secretkey")
 algorithm = os.getenv("algorithm")
 token_access_time = int(os.getenv("token_access_time"))
 
 
-def hash_password(password: str) -> str:
-    return generate_password_hash(password)
 
-def verify_password(password: str, hashed: str) -> bool:
-    return check_password_hash(hashed, password)
-
-
-
+#core
 def create_token(user_id: int) -> str:
     now = datetime.utcnow()
     expire = now + timedelta(minutes=token_access_time)
@@ -45,11 +42,3 @@ def decode_token(token: str) -> str:
     if not user_id:
         raise JWTError("No sub")
     return user_id
-
-
-
-
-
-
-
-
