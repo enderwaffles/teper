@@ -3,10 +3,12 @@
 #routes
 #posts.py
 
+#bibliotecs
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
+#modules
 from database import get_db
 from models import Post
 from schemas.post import PostCreate, PostResponse, PostUpdate, PostDelete

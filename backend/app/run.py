@@ -2,10 +2,12 @@
 #app
 #run.py
 
+#bibliotecs
 import uvicorn
 
 from fastapi.middleware.cors import CORSMiddleware
 
+#modules
 from main import app
 
 app.add_middleware(

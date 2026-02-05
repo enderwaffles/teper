@@ -3,9 +3,11 @@
 #models
 #posts.py
 
+#bibliotecs
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
+#modules
 from database import Base
 
 

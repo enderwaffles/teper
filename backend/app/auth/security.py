@@ -3,12 +3,13 @@
 #auth
 #security.py
 
+#bibliotecs
 from werkzeug.security import generate_password_hash, check_password_hash
-from fastapi import Header, HTTPException
-
-from datetime import datetime, timedelta
 from jose import jwt, JWTError
-from jose.exceptions import ExpiredSignatureError
+
+#modules
+from datetime import datetime, timedelta
+
 
 def hash_password(password: str) -> str:
     return generate_password_hash(password)
