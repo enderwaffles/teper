@@ -6,9 +6,17 @@
 #bibliotecs
 from werkzeug.security import generate_password_hash, check_password_hash
 from jose import jwt, JWTError
+import os
+from dotenv import load_dotenv
 
 #modules
 from datetime import datetime, timedelta
+
+
+load_dotenv()
+secretkey = os.getenv("secretkey")
+algorithm = os.getenv("algorithm")
+token_access_time = int(os.getenv("token_access_time"))
 
 
 def hash_password(password: str) -> str:
@@ -18,9 +26,6 @@ def verify_password(password: str, hashed: str) -> bool:
     return check_password_hash(hashed, password)
 
 
-secretkey = "хомяки"
-algorithm = "HS256"
-token_access_time = 1000
 
 def create_token(user_id: int) -> str:
     now = datetime.utcnow()
