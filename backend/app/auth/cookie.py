@@ -38,8 +38,8 @@ def set_auth_cookie(response, token: str):
         key=cookie_name,
         value=token,
         httponly=True,
-        samesite="lax",
         secure=False,  
+        samesite="lax",
         path="/",
     )
 

@@ -23,5 +23,5 @@ def root():
 
 @app.get("/about")
 def about():
-    return "About"
+    return {"message": "About"}
 
