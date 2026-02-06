@@ -1,6 +1,6 @@
 
-#app
-#run.py
+# app
+# run.py
 
 #bibliotecs
 import uvicorn

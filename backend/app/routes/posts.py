@@ -1,7 +1,7 @@
 
-#app
-#routes
-#posts.py
+# app
+# routes
+# posts.py
 
 #bibliotecs
 from fastapi import APIRouter, Depends, HTTPException
@@ -14,9 +14,14 @@ from models import Post
 from schemas.post import PostCreate, PostResponse, PostUpdate, PostDelete
 from auth import User, get_user
 
+
+
+#configs
 router = APIRouter(prefix="/posts", tags=["posts"])
 
 
+
+#core
 @router.get("/", response_model=List[PostResponse])
 def posts(db: Session = Depends(get_db)):
     return db.query(Post).all()

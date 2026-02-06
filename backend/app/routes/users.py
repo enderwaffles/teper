@@ -1,7 +1,7 @@
 
-#app
-#routes
-#users.py
+# app
+# routes
+# users.py
 
 #bibliotecs
 from fastapi import APIRouter, Depends, HTTPException
@@ -14,9 +14,13 @@ from models import User
 from schemas.user import UserResponse
 
 
+
+#configs
 router = APIRouter(prefix="/users", tags=["users"])
 
 
+
+#core
 @router.get("/", response_model=List[UserResponse])
 def users(db: Session = Depends(get_db)):
     return db.query(User).all()

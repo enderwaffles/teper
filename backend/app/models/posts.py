@@ -1,7 +1,7 @@
 
-#app
-#models
-#posts.py
+# app
+# models
+# posts.py
 
 
 

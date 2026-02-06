@@ -1,6 +1,6 @@
 
-#app
-#main.py
+# app
+# main.py
 
 #bibliotecs
 from fastapi import FastAPI
@@ -9,19 +9,13 @@ from fastapi import FastAPI
 from routes import routers
 from database import init_db
 
+
+
+#core
 app = FastAPI()
-
-
 
 init_db()
 for router in routers:
     app.include_router(router)
 
-@app.get("/")
-def root():
-    return {"message": "Hello world"}
-
-@app.get("/about")
-def about():
-    return {"message": "About"}
 

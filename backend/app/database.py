@@ -1,6 +1,6 @@
 
-#app
-#database.py
+# app
+# database.py
 
 #bibliotecs
 from sqlalchemy import create_engine

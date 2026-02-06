@@ -1,7 +1,7 @@
 
-#app
-#schemas
-#post.py
+# app
+# schemas
+# post.py
 
 from pydantic import BaseModel
 from .user import UserResponse
