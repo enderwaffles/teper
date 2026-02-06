@@ -48,7 +48,7 @@ def delete_post(id: int,
     if not obj:
         raise HTTPException(status_code=404, detail="Post not found")
     if not obj.author_id == user.id:
-        raise HTTPException(status_code=405, detail="Method not allowed")
+        raise HTTPException(status_code=403, detail="Method not allowed")
     db.delete(obj)
     db.commit()
     return None
@@ -64,7 +64,7 @@ def update_post(id: int,
         raise HTTPException(status_code=404, detail="Not found")
     if not obj.author_id == user.id:
         raise HTTPException(status_code=405, detail="Method not allowed")
-    if data is None and data.name.strip() == "":
+    if data.name.strip() == "":
         raise HTTPException(status_code=400, detail="Bad request")
     obj.name = data.name
     db.commit()

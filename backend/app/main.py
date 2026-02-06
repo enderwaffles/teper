@@ -19,10 +19,9 @@ for router in routers:
 
 @app.get("/")
 def root():
-    return "Hello world"
+    return {"message": "Hello world"}
 
 @app.get("/about")
 def about():
     return "About"
-
 

@@ -36,7 +36,7 @@ def protected(user: User = Depends(get_user)):
         "name": user.name,
     }
 
-@router.post("/signup")
+@router.post("/signup", status_code=201)
 def signup(data: UserSignup, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.name == data.name).first()
     if user:
@@ -52,10 +52,10 @@ def signup(data: UserSignup, db: Session = Depends(get_db)):
 def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.name == data.name).first()
     if not user:
-        raise HTTPException(status_code=404, detail="wrong name")
+        raise HTTPException(status_code=401, detail="wrong name or password")
     verified = verify_password(data.password, user.password)
     if not verified:
-        raise HTTPException(status_code=401, detail="wrong password")
+        raise HTTPException(status_code=401, detail="wrong name or password")
     token = create_token(user.id)
     set_auth_cookie(response, token)
     return {"message": "logged in", "token_type": "cookie"}
