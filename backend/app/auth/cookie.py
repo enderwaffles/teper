@@ -20,7 +20,7 @@ from .token import decode_token
 #core
 cookie_name = "access_token"
 
-def get_current_user(request: Request, db: Session = Depends(get_db)):
+def get_user(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get(cookie_name)
     if not token:
         raise HTTPException(status_code=401, detail="Not authenticated")

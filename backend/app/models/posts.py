@@ -3,6 +3,8 @@
 #models
 #posts.py
 
+
+
 #bibliotecs
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
@@ -11,6 +13,8 @@ from sqlalchemy.orm import relationship
 from database import Base
 
 
+
+#core
 class Post(Base):
     __tablename__ = "posts"
     __table_args__ = {"sqlite_autoincrement": True} 

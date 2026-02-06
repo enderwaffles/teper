@@ -3,6 +3,8 @@
 #models
 #users.py
 
+
+
 #bibliotecs
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
@@ -11,6 +13,8 @@ from sqlalchemy.orm import relationship
 from database import Base
 
 
+
+#core   
 class User(Base):
     __tablename__ = "users"
     __table_args__ = {"sqlite_autoincrement": True} 

@@ -16,13 +16,11 @@ class PostResponse(BaseModel):
 
 class PostCreate(BaseModel):
     name: str
-    author_id: int
 
 class PostDelete(BaseModel):
-    author_id: int
+    pass    
 
 class PostUpdate(BaseModel):
     name: str | None 
-    author_id: int
 
 

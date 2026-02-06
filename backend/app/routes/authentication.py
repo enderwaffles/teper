@@ -18,7 +18,7 @@ from schemas.user import UserSignup, UserLogin
 #auth
 from auth.token import create_token, decode_token
 from auth.hash import hash_password, verify_password
-from auth.cookie import get_current_user, set_auth_cookie, clear_auth_cookie
+from auth.cookie import get_user, set_auth_cookie, clear_auth_cookie
 
 
 
@@ -29,11 +29,11 @@ router = APIRouter(prefix="", tags=["authentication"])
 
 #core
 @router.get("/protected")
-def protected(user: User = Depends(get_current_user)):
+def protected(user: User = Depends(get_user)):
     return {
         "message": "access free",
         "id": user.id,
-        "name": user.name
+        "name": user.name,
     }
 
 @router.post("/signup")
