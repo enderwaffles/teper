@@ -5,7 +5,7 @@
 
 #bibliotecs
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List
 
 #modules
@@ -24,11 +24,12 @@ router = APIRouter(prefix="/posts", tags=["posts"])
 #core
 @router.get("/", response_model=List[PostResponse])
 def posts(db: Session = Depends(get_db)):
-    return db.query(Post).all()
-    
+    obj = db.query(Post).options(joinedload(Post.author)).all()
+    return obj
+
 @router.get("/{id}", response_model=PostResponse)
 def post(id: int, db: Session = Depends(get_db)):
-    obj = db.query(Post).filter(Post.id == id).first()
+    obj = db.query(Post).options(joinedload(Post.author)).filter(Post.id == id).first()
     if not obj:
         raise HTTPException(status_code=404, detail="Post not found")
     return obj

@@ -9,8 +9,8 @@ from .user import UserResponse
 class PostResponse(BaseModel):
     id: int
     name: str
-    author_id: int
-
+    author: UserResponse
+    
     class Config:
         from_attributes = True
 
