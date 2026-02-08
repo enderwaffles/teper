@@ -6,7 +6,7 @@
 from fastapi import FastAPI
 
 #modules
-from routes import routers
+from repositories.routes import routers
 from database import init_db
 
 
