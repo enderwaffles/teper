@@ -1,67 +1,82 @@
-<template>
-    <h1>{{ info }}</h1>
-    <p>{{ info2 }}</p>
-    <button type="button" v-on:click="userData()">Send</button> <br> <br>
-
-    <!-- <input type="text" v-on:input="insertData($event.target.value)" placeholder="Imya"> -->
-    <input type="text" v-model="imya" placeholder="Imya">
-    <input type="text" v-model="familya" placeholder="Familya"> <br> <br>
-    <button type="button" v-on:click="sendUser()">Send</button>
-    <h1>{{ imya }}</h1>
- 
-    <User :users="users" :deleteUser="deleteUser"/>
-</template>
 
 <script>
-import User from "./components/User.vue"
 export default {
-    components : { User },
     data() {
         return {
-            users: [],
-            info: "Title",
-            info2: "Anons",
-            imya: "",
-            familya: "",
+            city: "",
+            error: ""
         }
     },
-    
     methods: {
-        userData() {
-            this.info = 'Bruh';
-        },
-        insertData(value) {
-            this.imya = value;
-        },
-        deleteUser() {
-            console.log("delete")
-        },
-        sendUser() {
-            if(this.imya == "" && this.familya == ""){
-                this.imya = "error";
-            }
-            else {
 
-            
-                this.users.push({
-                    imya: this.imya,
-                    familya: this.familya,
-                })
+    
+        getWeather() {
+            if(this.city.trim().length < 2) {
+                this.error = "aa";
+                return false;            
             }
+            this.error = "";
         }
-
     }
+    
 }
 </script>
 
-<style>
-body {
-    background-color: black;
-} 
-h1 {
-    color: coral;
+<template>
+    <div class="wrapper">
+        <h1>Pogodnoye prilojenie</h1>
+        <p>Uznat pogodu v {{ city == "" ? "vashem gorode" : "gorode " + city }}</p>
+        <input type="text" v-on:input="this.city = $event.target.value" placeholder="Vvedite gorod">
+        <button v-show="city != ''" v-on:click="getWeather()">Get weather</button>
+        <p class="error">{{ error }}</p>
+    </div>
+</template>
+
+
+
+
+<style scoped>
+
+.error {
+    color: red;
 }
-p {
+
+.wrapper {
+    width: 900px;
+    height: 500px;
+    border-radius: 50px;
+    padding: 20px;
+    background: rgb(28, 28, 28);
+    text-align: center;
     color: white;
 }
+.wrapper p {
+    margin-top: 20px;
+}
+.wrapper input {
+    margin-top: 30px;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid rgb(28, 28, 28);
+    color: white;
+    font-size: 14px;
+    padding: 5px 8px;
+    outline: none;
+}
+.wrapper input:focus {
+    border-bottom-color: green;
+}
+.wrapper button {
+    background: green;
+    color:  white;
+    border-radius: 10px;
+    border: 2px solid green;
+    padding: 10px 15px;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: transform 500ms ease;
+    }
+.wrapper button:hover {
+    transform: scale(1.1) translateY(-5px);
+} 
 </style>
