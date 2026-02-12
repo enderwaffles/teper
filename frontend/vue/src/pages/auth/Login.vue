@@ -5,12 +5,14 @@
 <button type="button" v-on:click="login()">Login</button> <br>
 <RouterLink to="/signup">Don't you have an account?</RouterLink> <br>
 <RouterLink to="/">Back home</RouterLink>
+
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
+import api from '@/api/api';
 
 const auth = useAuthStore();
 const router = useRouter();
@@ -18,8 +20,13 @@ const router = useRouter();
 const name = ref("");
 const password = ref("");
 
-function login() {
-    auth.login({name: name.value, password: password.value});
+async function login() {
+    const res = await api.post("/login", {
+        name: name.value, 
+        password: password.value
+    })
+    console.log(res.data)
+    auth.login({id: res.data.user.id, name: res.data.user.name});
     router.push("/")
 }
 </script>

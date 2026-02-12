@@ -9,8 +9,8 @@ export const useAuthStore = defineStore("auth", () => {
     const session = ref(false);
     const user = ref(null);
 
-    function login({ name, password }) {
-        user.value = {name, password};
+    function login({ id, name}) {
+        user.value = {id, name};
         session.value = true;
     }
     function logout() {

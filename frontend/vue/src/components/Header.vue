@@ -7,14 +7,15 @@
     </div> 
     <div v-if="auth.session">
         <!-- <RouterLink to="/">Logout</RouterLink> -->
-        <p>{{ auth.user.name }}</p>
+        <p>{{ auth.user }}</p>
         <button type="button" v-on:click="logout">Logout</button>
         <br>
     </div>
     <div>
         <RouterLink to="/">Home </RouterLink>
         <RouterLink to="/about">About </RouterLink>
-        <RouterLink v-if="auth.session" to="/protected">Protected</RouterLink>
+        <RouterLink to="/posts">Posts </RouterLink>
+        <RouterLink v-if="auth.session" to="/create_post">Create post</RouterLink>
     </div>
 </template>
 

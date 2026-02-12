@@ -58,7 +58,7 @@ def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="wrong name or password")
     token = create_token(user.id)
     set_auth_cookie(response, token)
-    return {"message": "logged in", "token_type": "cookie"}
+    return {"message": "logged in", "token_type": "cookie", "user": user}
 
 @router.post("/logout")
 def logout(response: Response):
