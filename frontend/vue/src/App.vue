@@ -7,3 +7,12 @@
 
 </script>
 
+<style>
+body {
+    background-color: black;
+    color: white;
+}
+h1 {
+    color: coral;
+}
+</style>
