@@ -33,27 +33,26 @@ def post(id: int, db: Session = Depends(get_db)):
 @router.post("/", status_code=201, response_model=PostResponse)
 def create_post(
     title: str = Form(...),
-    file: Optional[UploadFile] = File(None),
+    text: str = Form(...),
+    file: Optional[UploadFile] = File(None),  # <-- было upload
     db: Session = Depends(get_db),
     user: User = Depends(get_user),
 ):
     os.makedirs("static", exist_ok=True)
 
-    # 1) создаём пост
-    obj = Post(title=title, author_id=user.id)
+    obj = Post(title=title, text=text, author_id=user.id)
     db.add(obj)
     db.commit()
     db.refresh(obj)
 
-    # 2) сохраняем файл (если есть)
-    if file:
+    if file is not None:
         name = f"{obj.id}_{file.filename}"
         disk_path = f"static/{name}"
 
         with open(disk_path, "wb") as f:
             f.write(file.file.read())
 
-        obj.file_path = f"/static/{name}"
+        obj.upload_url = f"/static/{name}"
         db.commit()
         db.refresh(obj)
 
