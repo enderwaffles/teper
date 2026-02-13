@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
+import { useAuthStore } from "@/stores/auth";
 
 import Home from "@/pages/Home.vue"
 import About from "@/pages/About.vue"
@@ -7,6 +8,7 @@ import Signup from "@/pages/auth/Signup.vue"
 import Posts from "@/pages/posts/Posts.vue"
 import Post from "@/pages/posts/Post.vue"
 import Create_post from "@/pages/posts/Create_post.vue"
+import Profile from "@/pages/auth/Profile.vue";
 
 const routes = [
     { path: '/', component: Home },
@@ -15,7 +17,8 @@ const routes = [
     { path: '/signup', component: Signup },
     { path: '/posts', component: Posts },
     { path: '/posts/:id', component: Post },
-    { path: '/create_post', component: Create_post },
+    { path: '/create_post', component: Create_post, meta: { requiresAuth: true } },
+    { path: '/profile', component: Profile, meta: { requiresAuth: true } },
 
 
     
@@ -28,5 +31,16 @@ const router = createRouter(
         routes,
     }
 )
+
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore();
+
+  if (to.meta.requiresAuth && !auth.session) {
+    next("/login");
+  } else {
+    next();
+  }
+});
+
 
 export default router;

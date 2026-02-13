@@ -1,26 +1,35 @@
-
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 export const useAuthStore = defineStore("auth", () => {
-    const session = ref(false);
-    const user = ref(null);
+  const session = ref(
+    localStorage.getItem("session") === "true"
+  );
 
-    function login({ id, name}) {
-        user.value = {id, name};
-        session.value = true;
-    }
-    function logout() {
-        user.value = null;
-        session.value = false;
-        router.push("/")
-    }
-    return {
-        session, user, login, logout
-    }
+  const user = ref(
+    JSON.parse(localStorage.getItem("user"))
+  );
 
-})
+  function login({ id, name }) {
+    user.value = { id, name };
+    session.value = true;
 
+    localStorage.setItem("session", "true");
+    localStorage.setItem("user", JSON.stringify(user.value));
+  }
+
+  function logout() {
+    user.value = null;
+    session.value = false;
+
+    localStorage.removeItem("session");
+    localStorage.removeItem("user");
+  }
+
+  return {
+    session,
+    user,
+    login,
+    logout,
+  };
+});
