@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <header class="header">
     <div class="header__inner">
       <!-- Logo -->
@@ -40,6 +41,28 @@
       </div>
     </div>
   </header>
+=======
+<header class="header">
+
+<h1>Forgeswords</h1>
+
+<RouterLink class="nav-link" to="/">Home </RouterLink>
+<RouterLink class="nav-link" to="/about">About </RouterLink>
+<RouterLink class="nav-link" to="/posts">Posts </RouterLink>
+
+<RouterLink v-if="auth.session" to="/create_post">Create post </RouterLink>
+
+<div v-if="!auth.session">
+    <RouterLink class="auth-link signup-btn" to="/signup">Sign up </RouterLink>
+    <RouterLink class="auth-link" to="/login">Login </RouterLink>
+</div>
+
+<div v-else>
+    <RouterLink class="auth-link" to="/profile">Profile</RouterLink>
+</div>
+
+</header>
+>>>>>>> 6d13676
 </template>
 
 <script setup>
@@ -48,6 +71,7 @@ const auth = useAuthStore()
 </script>
 
 <style scoped>
+<<<<<<< HEAD
 /* =========================
    Design tokens (local)
    Позже это легко вынести в общий theme.css
@@ -287,4 +311,7 @@ const auth = useAuthStore()
     padding: 10px 12px;
   }
 }
+=======
+
+>>>>>>> 6d13676
 </style>

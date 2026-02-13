@@ -33,27 +33,26 @@ def post(id: int, db: Session = Depends(get_db)):
 @router.post("/", status_code=201, response_model=PostResponse)
 def create_post(
     title: str = Form(...),
-    file: Optional[UploadFile] = File(None),
+    text: str = Form(...),
+    file: Optional[UploadFile] = File(None),  # <-- было upload
     db: Session = Depends(get_db),
     user: User = Depends(get_user),
 ):
     os.makedirs("static", exist_ok=True)
 
-    # 1) создаём пост
-    obj = Post(title=title, author_id=user.id)
+    obj = Post(title=title, text=text, author_id=user.id)
     db.add(obj)
     db.commit()
     db.refresh(obj)
 
-    # 2) сохраняем файл (если есть)
-    if file:
+    if file is not None:
         name = f"{obj.id}_{file.filename}"
         disk_path = f"static/{name}"
 
         with open(disk_path, "wb") as f:
             f.write(file.file.read())
 
-        obj.file_path = f"/static/{name}"
+        obj.upload_url = f"/static/{name}"
         db.commit()
         db.refresh(obj)
 
@@ -77,10 +76,10 @@ def update_post(id: int, data: PostUpdate, db: Session = Depends(get_db), user: 
         raise HTTPException(status_code=404, detail="Not found")
     if obj.author_id != user.id:
         raise HTTPException(status_code=405, detail="Method not allowed")
-    if data.title is not None and data.title.strip() == "":
+    if data.title.strip() == "" or data.text.strip() == "":
         raise HTTPException(status_code=400, detail="Bad request")
-    if data.title is not None:
-        obj.title = data.title
+    obj.title = data.title
+    obj.text = data.text
     db.commit()
     db.refresh(obj)
     return {"message": f"updated post {obj.title}"}

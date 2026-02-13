@@ -8,6 +8,7 @@
         <p class="subtitle">Add a title and an optional image/file, then publish.</p>
       </header>
 
+<<<<<<< HEAD
       <div class="form">
         <label class="field">
           <span class="field__label">Post title</span>
@@ -48,20 +49,43 @@
       </div>
     </section>
   </main>
+=======
+  <input v-model="title" placeholder="Title" />
+  <br>
+
+  <input v-model="text" placeholder="Text" />
+  <br>
+
+  <input type="file" @change="getFile" />
+  <br>
+
+  <button @click="send">Send</button>
+>>>>>>> 6d13676
 </template>
 
 <script setup>
 import Header from '@/components/Header.vue'
 import api from '@/api/api'
+<<<<<<< HEAD
 import { computed, ref } from 'vue'
+=======
+import { ref } from 'vue'
+>>>>>>> 6d13676
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+<<<<<<< HEAD
 const post_title = ref('')
+=======
+// данные
+const title = ref('')
+const text = ref('')
+>>>>>>> 6d13676
 const file = ref(null)
 const isSubmitting = ref(false)
 
+<<<<<<< HEAD
 const fileName = computed(() => file.value?.name || '')
 
 function onFileChange(e) {
@@ -86,6 +110,27 @@ async function submit() {
   } finally {
     isSubmitting.value = false
   }
+=======
+// берём файл
+function getFile(e) {
+  file.value = e.target.files[0]
+}
+
+// отправка
+async function send() {
+  const form = new FormData()
+
+  form.append('title', title.value)
+  form.append('text', text.value)
+
+  if (file.value) {
+    form.append('file', file.value)
+  }
+
+  await api.post('/posts', form)
+
+  router.push('/posts')
+>>>>>>> 6d13676
 }
 </script>
 

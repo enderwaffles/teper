@@ -9,6 +9,7 @@
           <p class="subtitle">Browse the latest posts and open any one to read more.</p>
         </div>
 
+<<<<<<< HEAD
         <div class="head__actions">
           <RouterLink class="btn btn--ghost" to="/">Home</RouterLink>
           <RouterLink class="btn btn--primary" to="/create_post">Create post</RouterLink>
@@ -24,6 +25,19 @@
           <div class="sk sk--line sk--btn"></div>
         </article>
       </div>
+=======
+  <div v-for="value in posts" :key="value.id">
+
+    <p>post title: {{ value.title }}</p>
+    <p>post text: {{ value.text }}</p>
+    <p>user name: {{ value.author.name }}</p>
+
+    <img
+      v-if="value.upload_url"
+      :src="'http://localhost:8000' + value.upload_url"
+      style="max-width: 300px"  
+    />
+>>>>>>> 6d13676
 
       <!-- Empty -->
       <div v-else-if="posts.length === 0" class="empty">
@@ -33,6 +47,7 @@
         <RouterLink class="btn btn--primary" to="/create_post">Create your first post</RouterLink>
       </div>
 
+<<<<<<< HEAD
       <!-- List (card = link) -->
       <div v-else class="grid">
         <RouterLink
@@ -73,6 +88,10 @@
       </div>
     </section>
   </main>
+=======
+    <RouterLink :to="`/posts/${value.id}`">Open post</RouterLink> <hr>
+  </div>
+>>>>>>> 6d13676
 </template>
 
 <script setup>
@@ -91,6 +110,7 @@ function fileUrl(path) {
 }
 
 onMounted(async () => {
+<<<<<<< HEAD
   try {
     loading.value = true
     const res = await api.get('/posts')
@@ -99,6 +119,12 @@ onMounted(async () => {
     loading.value = false
   }
 })
+=======
+  const res = await api.get("/posts");
+  posts.value = res.data;
+});
+
+>>>>>>> 6d13676
 </script>
 
 <style scoped>

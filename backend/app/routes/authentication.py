@@ -42,15 +42,19 @@ def signup(data: UserSignup, db: Session = Depends(get_db)):
     if user:
         raise HTTPException(status_code=400, detail="User already is")
     hashed_password = hash_password(data.password)
-    obj = User(name=data.name, password=hashed_password)
+    obj = User(email=data.email, 
+               nickname=data.nickname, 
+               name=data.name.capitalize(),
+               surname=data.surname.capitalize(), 
+               password=hashed_password)
     db.add(obj)
     db.commit()
     db.refresh(obj)
-    return {"message": "you signed up;)"}
+    return {"message": "you signed up;)", "user": obj}
 
 @router.post("/login")
 def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.name == data.name).first()
+    user = db.query(User).filter(User.email == data.email).first()
     if not user:
         raise HTTPException(status_code=401, detail="wrong name or password")
     verified = verify_password(data.password, user.password)

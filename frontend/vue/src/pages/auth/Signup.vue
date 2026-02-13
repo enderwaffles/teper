@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <Header />
 
   <main class="page">
@@ -66,6 +67,21 @@
       </aside>
     </section>
   </main>
+=======
+<h1>Signup</h1>
+
+<input type="text" v-model="email" placeholder="email">
+<input type="text" v-model="nickname" placeholder="nickname">
+<input type="text" v-model="name" placeholder="name">
+<input type="text" v-model="surname" placeholder="surname">
+<input type="text" v-model="password" placeholder="password">
+<input type="text" v-model="repeat_password" placeholder="repeat_password">
+<button type="button" v-on:click="signup()">Signup</button>
+<p>{{ message }}</p>
+<RouterLink to="/login">Already have an account? </RouterLink>
+<RouterLink to="/">Back to home </RouterLink>
+
+>>>>>>> 6d13676
 </template>
 
 <script setup>
@@ -76,37 +92,69 @@ import api from '@/api/api'
 
 const router = useRouter()
 
-const name = ref('')
-const password = ref('')
+const email = ref("")
+const nickname = ref("")
+const name = ref("")
+const surname = ref("")
+const password = ref("")
+const repeat_password = ref("")
+
+const message = ref("")
 
 const loading = ref(false)
 const error = ref('')
 
 async function signup() {
+<<<<<<< HEAD
   error.value = ''
 
   if (!name.value.trim() || !password.value) {
     error.value = 'Please fill in all fields.'
     return
   }
+=======
+  // if (!email.value || !nickname.value || !name.value || !surname.value || !password.value || !repeat_password.value) {
+  //   alert("Fill all fields")
+  //   return
+  // }
+  // if (password.value != repeat_password.value) {
+  //   alert("Passwords dont match")
+  //   return
+  // }
+>>>>>>> 6d13676
 
   try {
     loading.value = true
 
     await api.post('/signup', {
+<<<<<<< HEAD
       name: name.value.trim(),
+=======
+      email: email.value,
+      nickname: nickname.value,
+      name: name.value,
+      surname: name.value,
+>>>>>>> 6d13676
       password: password.value
     })
 
     router.push('/login')
+<<<<<<< HEAD
   } catch (e) {
     error.value = 'Signup failed. Try another username.'
   } finally {
     loading.value = false
+=======
+  }
+  catch (error) {
+    console.log(error)
+    message.value = error
+>>>>>>> 6d13676
   }
 }
 </script>
 
+<<<<<<< HEAD
 <style scoped>
 /* Same auth language as Login */
 .page {
@@ -350,3 +398,6 @@ async function signup() {
   right: 30px;
 }
 </style>
+=======
+<style scoped></style>
+>>>>>>> 6d13676

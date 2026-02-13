@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <Header />
 
   <main class="page">
@@ -56,6 +57,17 @@
       </aside>
     </section>
   </main>
+=======
+<h1>Login</h1>
+
+<input type="text" v-model="email" placeholder="email">
+<input type="text" v-model="password" placeholder="password">
+<button type="button" v-on:click="login()">Login</button>
+<p>{{ message }}</p>
+<RouterLink to="/signup">Don't have an account? </RouterLink>
+<RouterLink to="/">Back to home </RouterLink>
+
+>>>>>>> 6d13676
 </template>
 
 <script setup>
@@ -68,17 +80,24 @@ import api from '@/api/api'
 const auth = useAuthStore()
 const router = useRouter()
 
-const name = ref('')
-const password = ref('')
+const email = ref("")
+const password = ref("")
+
+const message = ref("")
 
 const loading = ref(false)
 const error = ref('')
 
 async function login() {
+<<<<<<< HEAD
   error.value = ''
 
   if (!name.value.trim() || !password.value) {
     error.value = 'Please fill in both fields.'
+=======
+  if (!email.value || !password.value) {
+    alert('Fill all fields')
+>>>>>>> 6d13676
     return
   }
 
@@ -86,7 +105,11 @@ async function login() {
     loading.value = true
 
     const res = await api.post('/login', {
+<<<<<<< HEAD
       name: name.value.trim(),
+=======
+      email: email.value,
+>>>>>>> 6d13676
       password: password.value
     })
 
@@ -96,14 +119,23 @@ async function login() {
     })
 
     router.push('/')
+<<<<<<< HEAD
   } catch (e) {
     error.value = 'Login failed. Check your credentials and try again.'
   } finally {
     loading.value = false
+=======
+  } 
+  catch (error) {
+    alert('Login failed')
+    console.log(error)
+    message.value = error
+>>>>>>> 6d13676
   }
 }
 </script>
 
+<<<<<<< HEAD
 <style scoped>
 /* Same global page language */
 .page {
@@ -349,3 +381,6 @@ async function login() {
   right: 30px;
 }
 </style>
+=======
+<style scoped></style>
+>>>>>>> 6d13676
