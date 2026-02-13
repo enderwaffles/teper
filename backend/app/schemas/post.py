@@ -20,3 +20,5 @@ class PostResponse(BaseModel):
 
 class PostUpdate(BaseModel):
     title: str | None
+    text: str | None
+

@@ -1,14 +1,12 @@
 <template>
+<h1>Login</h1>
 
-  <div class="links">
-    <RouterLink to="/signup">
-      Don’t have an account?
-    </RouterLink>
-
-    <RouterLink to="/">
-      ← Back home
-    </RouterLink>
-  </div>
+<input type="text" v-model="email" placeholder="email">
+<input type="text" v-model="password" placeholder="password">
+<button type="button" v-on:click="login()">Login</button>
+<p>{{ message }}</p>
+<RouterLink to="/signup">Don't have an account? </RouterLink>
+<RouterLink to="/">Back to home </RouterLink>
 
 </template>
 
@@ -21,18 +19,20 @@ import api from '@/api/api'
 const auth = useAuthStore()
 const router = useRouter()
 
-const name = ref('')
-const password = ref('')
+const email = ref("")
+const password = ref("")
+
+const message = ref("")
 
 async function login() {
-  if (!name.value || !password.value) {
+  if (!email.value || !password.value) {
     alert('Fill all fields')
     return
   }
 
   try {
     const res = await api.post('/login', {
-      name: name.value,
+      email: email.value,
       password: password.value
     })
 
@@ -42,8 +42,11 @@ async function login() {
     })
 
     router.push('/')
-  } catch (err) {
+  } 
+  catch (error) {
     alert('Login failed')
+    console.log(error)
+    message.value = error
   }
 }
 </script>

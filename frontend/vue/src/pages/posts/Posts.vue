@@ -4,20 +4,20 @@
   <h1>Posts</h1>
 
   <div v-for="value in posts" :key="value.id">
+
     <p>post title: {{ value.title }}</p>
+    <p>post text: {{ value.text }}</p>
     <p>user name: {{ value.author.name }}</p>
 
-    <!-- КАРТИНКА -->
     <img
-      v-if="value.file_path"
-      :src="'http://localhost:8000' + value.file_path"
-      style="max-width: 300px"
+      v-if="value.upload_url"
+      :src="'http://localhost:8000' + value.upload_url"
+      style="max-width: 300px"  
     />
 
     <br>
 
-    <RouterLink :to="`/posts/${value.id}`">Open post</RouterLink>
-    <hr>
+    <RouterLink :to="`/posts/${value.id}`">Open post</RouterLink> <hr>
   </div>
 </template>
 

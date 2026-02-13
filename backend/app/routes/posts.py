@@ -76,10 +76,10 @@ def update_post(id: int, data: PostUpdate, db: Session = Depends(get_db), user: 
         raise HTTPException(status_code=404, detail="Not found")
     if obj.author_id != user.id:
         raise HTTPException(status_code=405, detail="Method not allowed")
-    if data.title is not None and data.title.strip() == "":
+    if data.title.strip() == "" or data.text.strip() == "":
         raise HTTPException(status_code=400, detail="Bad request")
-    if data.title is not None:
-        obj.title = data.title
+    obj.title = data.title
+    obj.text = data.text
     db.commit()
     db.refresh(obj)
     return {"message": f"updated post {obj.title}"}

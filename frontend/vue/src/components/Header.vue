@@ -1,37 +1,24 @@
 <template>
-    <header class="header">
+<header class="header">
 
-        <!-- Лого -->
-        <div class="logo">
-            <h1>Forgeswords</h1>
-        </div>
+<h1>Forgeswords</h1>
 
-        <!-- Навигация -->
-        <nav class="nav">
-            <RouterLink class="nav-link" to="/">Home</RouterLink>
-            <RouterLink class="nav-link" to="/about">About</RouterLink>
-            <RouterLink class="nav-link" to="/posts">Posts</RouterLink>
+<RouterLink class="nav-link" to="/">Home </RouterLink>
+<RouterLink class="nav-link" to="/about">About </RouterLink>
+<RouterLink class="nav-link" to="/posts">Posts </RouterLink>
 
-            <RouterLink v-if="auth.session" class="nav-link" to="/create_post">
-                Create post
-            </RouterLink>
-        </nav>
+<RouterLink v-if="auth.session" to="/create_post">Create post </RouterLink>
 
-        <!-- Авторизация -->
-        <div class="auth">
-            <template v-if="!auth.session">
-                <RouterLink class="auth-link signup-btn" to="/signup">
-                    Sign up
-                </RouterLink>
-                <RouterLink class="auth-link" to="/login">Login</RouterLink>
-            </template>
+<div v-if="!auth.session">
+    <RouterLink class="auth-link signup-btn" to="/signup">Sign up </RouterLink>
+    <RouterLink class="auth-link" to="/login">Login </RouterLink>
+</div>
 
-            <template v-else>
-                <RouterLink class="auth-link" to="/profile">{{ auth.user.name }}</RouterLink>
-            </template>
-        </div>
+<div v-else>
+    <RouterLink class="auth-link" to="/profile">Profile</RouterLink>
+</div>
 
-    </header>
+</header>
 </template>
 
 <script setup>

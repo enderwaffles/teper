@@ -1,21 +1,24 @@
 <template>
   <Header />
+
   <h1>Post</h1>
 
   <div v-if="post">
+
     <p>post title: {{ post.title }}</p>
+    <p>post text: {{ post.text }}</p>
     <p>user name: {{ post.author?.name }}</p>
 
-    <!-- КАРТИНКА -->
     <img
-      v-if="post.file_path"
-      :src="'http://localhost:8000' + post.file_path"
+      v-if="post.upload_url"
+      :src="'http://localhost:8000' + post.upload_url"
       style="max-width: 400px"
     />
 
     <br>
-
-    <button type="button" @click="delete_post">Delete</button>
+    <div v-if="auth.user.id == post.author.id">
+      <button type="button" @click="delete_post">Delete</button>
+    </div>
   </div>
 </template>
 
@@ -24,9 +27,12 @@ import Header from '@/components/Header.vue';
 import api from '@/api/api';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
 
 const route = useRoute();
 const router = useRouter();
+const auth = useAuthStore()
+
 
 const post = ref(null);
 const post_id = route.params.id;

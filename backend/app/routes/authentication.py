@@ -41,8 +41,6 @@ def signup(data: UserSignup, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.name == data.name).first()
     if user:
         raise HTTPException(status_code=400, detail="User already is")
-    if data.password != data.repeat_password:
-        raise HTTPException(status_code=400, detail="Password don't match")
     hashed_password = hash_password(data.password)
     obj = User(email=data.email, 
                nickname=data.nickname, 

@@ -24,7 +24,6 @@ class UserSignup(BaseModel):
     name: str
     surname: str
     password: str
-    repeat_password: str
 
 class UserLogin(BaseModel):
     email: str
