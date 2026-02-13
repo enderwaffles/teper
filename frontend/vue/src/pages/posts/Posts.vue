@@ -32,4 +32,5 @@ onMounted(async () => {
   const res = await api.get("/posts");
   posts.value = res.data;
 });
+
 </script>
