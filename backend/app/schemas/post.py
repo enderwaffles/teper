@@ -8,19 +8,19 @@ from .user import UserResponse
 
 class PostResponse(BaseModel):
     id: int
-    name: str
+    title: str
     author: UserResponse
     
     class Config:
         from_attributes = True
 
 class PostCreate(BaseModel):
-    name: str
+    title: str
 
 class PostDelete(BaseModel):
     pass    
 
 class PostUpdate(BaseModel):
-    name: str | None 
+    title: str | None 
 
 

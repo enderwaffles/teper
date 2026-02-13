@@ -3,7 +3,7 @@
     <h1>Posts</h1>
 
     <div v-for="value in posts" :key="value.id">
-        <p>post title: {{ value.name }}</p>
+        <p>post title: {{ value.title }}</p>
         <p>user name: {{ value.author.name }}</p>
         <RouterLink :to="`/posts/${value.id}`">Open post</RouterLink>
         <hr>

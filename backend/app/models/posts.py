@@ -19,7 +19,7 @@ class Post(Base):
     __tablename__ = "posts"
     __table_args__ = {"sqlite_autoincrement": True} 
     id = Column(Integer, primary_key=True)
-    name = Column(String(20), nullable=False)
+    title = Column(String(20), nullable=False)
     author_id = Column(Integer, ForeignKey("users.id"))
     author = relationship("User", back_populates="posts")
 

@@ -39,11 +39,11 @@ def create_post(data: PostCreate,
                 db: Session = Depends(get_db), 
                 user: User = Depends(get_user)
                 ):
-    obj = Post(name=data.name, author_id=user.id)
+    obj = Post(title=data.title, author_id=user.id)
     db.add(obj)
     db.commit()
     db.refresh(obj)
-    return {"message": f"created post {obj.name}"}
+    return {"message": f"created post {obj.title}"}
 
 @router.delete("/{id}", status_code=204)
 def delete_post(id: int, 
@@ -70,9 +70,9 @@ def update_post(id: int,
         raise HTTPException(status_code=404, detail="Not found")
     if not obj.author_id == user.id:
         raise HTTPException(status_code=405, detail="Method not allowed")
-    if data.name.strip() == "":
+    if data.title.strip() == "":
         raise HTTPException(status_code=400, detail="Bad request")
-    obj.name = data.name
+    obj.title = data.title
     db.commit()
     db.refresh(obj)
-    return {"message": f"updated post {obj.name}"}
+    return {"message": f"updated post {obj.title}"}

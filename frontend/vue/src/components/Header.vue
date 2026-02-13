@@ -27,7 +27,7 @@
             </template>
 
             <template v-else>
-                <RouterLink class="auth-link" to="/profile">Profile</RouterLink>
+                <RouterLink class="auth-link" to="/profile">{{ auth.user.name }}</RouterLink>
             </template>
         </div>
 
