@@ -1,9 +1,15 @@
 <template>
-<Header />
-<h1>Create post</h1>
-<input type="text" v-model="post_title" placeholder="postname"> <br>
-<button type="submit" v-on:click="submit()">submit</button>
+  <Header />
+
+  <h1>Create post</h1>
+
+  <input type="text" v-model="post_title" placeholder="postname"> <br>
+
+  <input type="file" @change="onFileChange" /> <br>
+
+  <button type="submit" @click="submit">submit</button>
 </template>
+
 
 <script setup>
 import Header from '@/components/Header.vue';
@@ -14,12 +20,29 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 
 const post_title = ref("")
+const file = ref(null)
 
-async function submit() {
-    const res = await api.post("/posts", {
-        title: post_title.value
-    })
-    router.push("/posts")
+
+function onFileChange(e) {
+  file.value = e.target.files[0]
 }
 
+
+async function submit() {
+  const form = new FormData()
+
+  form.append("title", post_title.value)
+
+  if (file.value) {
+    form.append("file", file.value)
+  }
+
+  await api.post("/posts", form, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  })
+
+  router.push("/posts")
+}
 </script>

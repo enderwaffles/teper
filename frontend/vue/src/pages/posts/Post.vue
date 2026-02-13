@@ -1,13 +1,22 @@
 <template>
-    <Header />
-    <h1>Post</h1>
+  <Header />
+  <h1>Post</h1>
 
-    <div v-if="post">
-        <p>post title: {{ post.title }}</p>
-        <p>user name: {{ post.author?.name }}</p>
-        <button type="button" v-on:click="delete_post()">Delete</button>
-    </div>
+  <div v-if="post">
+    <p>post title: {{ post.title }}</p>
+    <p>user name: {{ post.author?.name }}</p>
 
+    <!-- КАРТИНКА -->
+    <img
+      v-if="post.file_path"
+      :src="'http://localhost:8000' + post.file_path"
+      style="max-width: 400px"
+    />
+
+    <br>
+
+    <button type="button" @click="delete_post">Delete</button>
+  </div>
 </template>
 
 <script setup>
@@ -20,16 +29,15 @@ const route = useRoute();
 const router = useRouter();
 
 const post = ref(null);
-const post_id = route.params.id; 
+const post_id = route.params.id;
 
 onMounted(async () => {
-    const res = await api.get(`/posts/${post_id}`);
-    post.value = res.data;
-})
+  const res = await api.get(`/posts/${post_id}`);
+  post.value = res.data;
+});
 
 async function delete_post() {
-    const res = await api.delete(`/posts/${post_id}`);
-    router.push("/posts")
+  await api.delete(`/posts/${post_id}`);
+  router.push("/posts");
 }
-
 </script>
