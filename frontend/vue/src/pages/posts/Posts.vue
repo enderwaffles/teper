@@ -26,8 +26,6 @@ import api from '@/api/api'
 import { onMounted, ref } from 'vue'
 
 const posts = ref([])
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
-console.log(api)
 onMounted(async () => {
 
   const res = await api.get("/posts");
