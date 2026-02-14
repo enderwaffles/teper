@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 import os
+from datetime import datetime
 
 #modules
 from database import get_db
@@ -46,7 +47,8 @@ def create_post(
     db.refresh(obj)
 
     if file is not None:
-        name = f"{obj.id}_{file.filename}"
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f") 
+        name = f"{obj.author_id}_{timestamp}_{obj.id}_{file.filename}"
         disk_path = f"static/{name}"
 
         with open(disk_path, "wb") as f:

@@ -11,13 +11,14 @@
 
     <img
       v-if="post.upload_url"
-      :src="'http://localhost:8000' + post.upload_url"
+      :src="api.defaults.baseURL + post.upload_url"
       style="max-width: 400px"
     />
 
     <br>
     <div v-if="auth.user.id == post.author.id">
       <button type="button" @click="delete_post()">Delete</button>
+      <RouterLink :to="`/update_post/${post_id}`">Update</RouterLink>
     </div>
   </div>
 </template>
