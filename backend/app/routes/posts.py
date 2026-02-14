@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 import os
 from datetime import datetime
+from pathlib import Path
 
 #modules
 from database import get_db
@@ -17,6 +18,7 @@ from auth import User, get_user
 
 #configs
 router = APIRouter(prefix="/posts", tags=["posts"])
+
 
 #core
 @router.get("/", response_model=List[PostResponse])
@@ -69,6 +71,11 @@ def delete_post(id: int, db: Session = Depends(get_db), user: User = Depends(get
         raise HTTPException(status_code=403, detail="Method not allowed")
     db.delete(obj)
     db.commit()
+    if obj.upload_url:
+        filename = obj.upload_url.replace("/static/", "")
+        file_path = Path("static") / filename
+        if file_path.exists():
+            file_path.unlink()
     return None
 
 @router.patch("/{id}", status_code=202)
