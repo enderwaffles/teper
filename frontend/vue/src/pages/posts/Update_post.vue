@@ -12,7 +12,7 @@
 
 <script setup>
 import api from '@/api/api'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -22,6 +22,13 @@ const post_id = route.params.id
 
 const title = ref("")
 const text = ref("")
+
+onMounted( async () =>  {
+  const res = await api.get(`/posts/${post_id}`)
+    title.value = res.data.title
+    text.value = res.data.text
+
+})
 
 // отправка
 async function send() {

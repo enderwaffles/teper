@@ -12,7 +12,6 @@ import subprocess
 
 #modules
 from routes import routers
-from database import init_db
 
 #venv
 venv_dir = "venv"

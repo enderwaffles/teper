@@ -28,9 +28,9 @@ class User(Base):
     surname = Column(String(24), nullable=False)
 
     password = Column(String(256), nullable=False) #hashed by werkzeug
-    avatar_url = Column(String(512), nullable=True) #profile picture  
+    # avatar_url = Column(String(512), nullable=True) #profile picture  
 
-    admin = Column(Boolean, default=False)
+    # admin = Column(Boolean, default=False)
 
     #properties
     posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")

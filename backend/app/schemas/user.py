@@ -13,7 +13,6 @@ class UserResponse(BaseModel):
     nickname: str
     name: str
     surname: str
-    avatar_url: str | None
 
     class Config:
         from_attributes = True
