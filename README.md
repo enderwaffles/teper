@@ -2,9 +2,9 @@
 
 Hello everybody :))), this is FastAPI + Vue project, you can contact me with: 
 
-telegram: @enderwaffles 
-discord: @enderwaffles2004
-insta: @forgeswords
+- Telegram: @enderwaffles
+- Discord: @enderworldlife
+- Instagram: @forgeswords
 
 
 ## Backend
