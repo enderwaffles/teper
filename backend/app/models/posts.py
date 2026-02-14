@@ -21,6 +21,7 @@ class Post(Base):
     text = Column(String, nullable=False)
     upload_url = Column(String, nullable=True)
     date = Column(DateTime, default=datetime.utcnow)
+    likes = Column(Integer, default=0, nullable=False)
 
     #owner
     author_id = Column(Integer, ForeignKey("users.id"))

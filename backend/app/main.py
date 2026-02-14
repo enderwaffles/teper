@@ -45,7 +45,6 @@ app = FastAPI()
 os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-init_db()
 for router in routers:
     app.include_router(router)
 
