@@ -16,10 +16,30 @@
     />
 
     <br>
+
     <div v-if="auth.user.id == post.author.id">
       <button type="button" @click="delete_post()">Delete</button>
       <RouterLink :to="`/update_post/${post_id}`">Update</RouterLink>
     </div>
+
+    <hr>
+    
+    <p>comments: </p>
+
+    <div v-for="value in post.comments">
+      <p>author name: {{ value.author.name }}</p>
+      <p>comment text: {{ value.text }}</p>
+      <button type="button" v-if="auth.user.id == value.author.id" v-on:click="delete_comment(value.id)">Delete</button>
+    </div>
+    
+    <hr>
+    <div v-if="auth.user">
+      <p>write comment: </p>  
+      <p>{{ auth.user.name }}</p>
+      <input type="text" v-model="comment" placeholder="comment">
+      <button type="button" v-on:click="send_comment()">send</button>
+    </div>
+    
   </div>
 </template>
 
@@ -36,13 +56,12 @@ const auth = useAuthStore()
 
 
 const post = ref(null)
-
 const post_id = route.params.id
 
+const comment = ref("")
 
 onMounted(async () => {
   const res = await api.get(`/posts/${post_id}`)
-
   post.value = res.data
   
 });
@@ -50,6 +69,23 @@ onMounted(async () => {
 async function delete_post() {
   await api.delete(`/posts/${post_id}`)
   router.push('/posts')
+
+}
+
+// comments
+async function send_comment() {
+  const form = new FormData()
+  form.append("text", comment.value)
+  const res = await api.post(`/posts/comments/${post_id}`, form)
+  post.value.comments.push(res.data) // 👈 добавили сразу в список
+  comment.value = "" // очистить input
+}
+
+async function delete_comment(id) {
+  await api.delete(`/posts/comments/${id}`)
+  post.value.comments = post.value.comments.filter(
+    comment => comment.id !== id
+  )
 
 }
 
