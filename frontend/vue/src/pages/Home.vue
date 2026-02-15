@@ -1,7 +1,13 @@
 <template>
   <Header />
-  <h1>Home</h1>
-  <p>{{ message }}</p>
+  
+  <div>
+    <h1>Home</h1>
+  </div>
+
+  <div>
+    <p>{{ message }}</p>
+  </div>
 
 </template>
 
@@ -24,5 +30,9 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
