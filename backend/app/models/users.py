@@ -34,5 +34,5 @@ class User(Base):
 
     #properties
     posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
-    # comments = relationship("Comment", back_populates="author", cascade="all, delete-orphan")
+    comments = relationship("Comment", back_populates="author", cascade="all, delete-orphan")
     
