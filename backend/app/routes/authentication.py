@@ -68,3 +68,6 @@ def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):
 def logout(response: Response):
     clear_auth_cookie(response)
     return {"message": "logged out"}
+
+
+
