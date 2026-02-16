@@ -2,7 +2,7 @@
   <Header />
 
   <div class="title">
-    <h1>Login</h1>
+    <h1>Verification</h1>
   </div>
 
   <main class="auth">
@@ -10,22 +10,16 @@
     <div class="card">
 
       <input
-        type="email"
-        v-model="email"
-        placeholder="Email"
-      />
-
-      <input
-        type="password"
-        v-model="password"
-        placeholder="Password"
+        type="incode"
+        v-model="incode"
+        placeholder="Code"
       />
 
       <button
         :disabled="loading"
-        @click="login"
+        @click="verify"
       >
-        {{ loading ? 'Loading...' : 'Login' }}
+        {{ loading ? 'Loading...' : 'Verify' }}
       </button>
 
       <p v-if="message" class="error">
@@ -33,13 +27,7 @@
       </p>
 
       <div class="links">
-        <RouterLink to="/signup">
-          Don't have an account?
-        </RouterLink>
-
-        <RouterLink to="/">
-          Back to home
-        </RouterLink>
+        
       </div>
 
     </div>
@@ -51,20 +39,23 @@
 import Header from '@/components/Header.vue'
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import api from '@/api/api'
 
 const auth = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 
-const email = ref('')
-const password = ref('')
+const email = ref(route.query.email || '')
+
+const incode = ref('')
 
 const message = ref('')
 const loading = ref(false)
 
-async function login() {
-  if (!email.value || !password.value) {
+async function verify() {
+
+  if (!incode.value) {
     message.value = 'Fill in all fields'
     return
   }
@@ -73,9 +64,9 @@ async function login() {
     loading.value = true
     message.value = ''
 
-    const res = await api.post('/login', {
-      email: email.value,
-      password: password.value
+    const res = await api.post('/verify', {
+        email: email.value,
+        code: incode.value
     })
 
     auth.login({
@@ -91,7 +82,7 @@ async function login() {
   }
   catch (error) {
     console.log(error)
-    message.value = 'Login failed'
+    message.value = 'Signup failed'
   }
   finally {
     loading.value = false
@@ -106,7 +97,7 @@ async function login() {
   margin: 20px 0;
 }
 
-/* Центрируем форму */
+/* Центрируем */
 .auth {
   display: flex;
   justify-content: center;
@@ -116,13 +107,13 @@ async function login() {
 /* Карточка */
 .card {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   background-color: rgb(30, 30, 30);
   border-radius: 20px;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 /* Инпуты */
@@ -161,7 +152,7 @@ button:disabled {
   cursor: default;
 }
 
-/* Ошибка */
+/* Ошибки */
 .error {
   color: #ff6b6b;
   font-size: 13px;

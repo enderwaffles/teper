@@ -120,7 +120,8 @@ async function signup() {
       password: password.value
     })
 
-    router.push('/login')
+    router.push(`/verify?email=${email.value}`)
+
   }
   catch (error) {
     console.log(error)

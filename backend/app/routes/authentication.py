@@ -6,14 +6,14 @@
 
 
 #bibliotecs
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Response, Form
 from sqlalchemy.orm import Session
 from typing import List
 
 #modules
 from database import get_db
 from models import User
-from schemas.user import UserSignup, UserLogin
+from schemas.user import UserSignup, UserLogin, VerifyIn
 
 #auth
 from auth.token import create_token, decode_token
@@ -57,18 +57,20 @@ def signup(data: UserSignup, db: Session = Depends(get_db)):
                 is_verified=False,
                 email_code=code)
         db.add(obj)
-        
+
     db.commit()
     db.refresh(obj)
     return {"message": "sent code"}
 
+
+
 @router.post("/verify")
-def verify(email: str, code: str, response: Response, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.email == email).first()
+def verify(data: VerifyIn, response: Response, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == data.email).first()
     if not user:
         raise HTTPException(status_code=400, detail="User not found")
 
-    if user.email_code != code:
+    if user.email_code != data.code:
         raise HTTPException(status_code=400, detail="Wrong code")
     
     user.is_verified = True
@@ -77,7 +79,7 @@ def verify(email: str, code: str, response: Response, db: Session = Depends(get_
     token = create_token(user.id)
     set_auth_cookie(response, token)
 
-    return {"message": "ok"}
+    return {"message": "ok", "user": user}
 
 @router.post("/login")
 def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):

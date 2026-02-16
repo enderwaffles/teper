@@ -40,15 +40,15 @@ def user(id: int, db: Session = Depends(get_db)):
 #     db.refresh(obj)
 #     return obj
 
-# @router.delete("/{id}", status_code=204)
-# def delete_user(id: int, db: Session = Depends(get_db)):
-#     obj = db.query(User).filter(User.id == id).first()
-#     if not obj:
-#         raise HTTPException(status_code=404, detail="User not found")
-#     else:
-#         db.delete(obj)
-#         db.commit()
-#         return None
+@router.delete("/{id}", status_code=204)
+def delete_user(id: int, db: Session = Depends(get_db)):
+    obj = db.query(User).filter(User.id == id).first()
+    if not obj:
+        raise HTTPException(status_code=404, detail="User not found")
+    else:
+        db.delete(obj)
+        db.commit()
+        return None
     
 # @router.patch("/{id}", response_model=UserResponse)
 # def update_user(id: int, data: UserUpdate, db: Session = Depends(get_db)):
