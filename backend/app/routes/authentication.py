@@ -19,7 +19,7 @@ from schemas.user import UserSignup, UserLogin
 from auth.token import create_token, decode_token
 from auth.hash import hash_password, verify_password
 from auth.cookie import get_user, set_auth_cookie, clear_auth_cookie
-
+from auth.mail import sendcode
 
 
 #configs
@@ -39,29 +39,61 @@ def protected(user: User = Depends(get_user)):
 @router.post("/signup", status_code=201)
 def signup(data: UserSignup, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.name == data.name).first()
-    if user:
+    if user and user.is_verified:
         raise HTTPException(status_code=400, detail="User already is")
+    
     hashed_password = hash_password(data.password)
-    obj = User(email=data.email, 
-               nickname=data.nickname, 
-               name=data.name.capitalize(),
-               surname=data.surname.capitalize(), 
-               password=hashed_password)
-    db.add(obj)
+    code = sendcode(data.email) 
+
+    if user:
+        user.password = hashed_password
+        user.email_code = code
+    else:
+        obj = User(email=data.email, 
+                nickname=data.nickname, 
+                name=data.name.capitalize(),
+                surname=data.surname.capitalize(), 
+                password=hashed_password,
+                is_verified=False,
+                email_code=code)
+        db.add(obj)
+        
     db.commit()
     db.refresh(obj)
-    return {"message": "you signed up;)", "user": obj}
+    return {"message": "sent code"}
+
+@router.post("/verify")
+def verify(email: str, code: str, response: Response, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+
+    if user.email_code != code:
+        raise HTTPException(status_code=400, detail="Wrong code")
+    
+    user.is_verified = True
+    user.email_code = None
+    db.commit()
+    token = create_token(user.id)
+    set_auth_cookie(response, token)
+
+    return {"message": "ok"}
 
 @router.post("/login")
 def login(data: UserLogin, response: Response, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == data.email).first()
     if not user:
         raise HTTPException(status_code=401, detail="wrong name or password")
-    verified = verify_password(data.password, user.password)
-    if not verified:
+
+    if not user.is_verified:
+        raise HTTPException(status_code=403, detail="Email not verified")
+
+    if not verify_password(data.password, user.password):
         raise HTTPException(status_code=401, detail="wrong name or password")
+
     token = create_token(user.id)
     set_auth_cookie(response, token)
+
     return {"message": "logged in", "token_type": "cookie", "user": user}
 
 @router.post("/logout")
