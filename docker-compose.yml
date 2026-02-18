@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build:
+      context: ./backend/app
+    container_name: fastapi_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/app
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend/vue
+    container_name: vue_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/vue:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    restart: always
