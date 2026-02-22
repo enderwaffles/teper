@@ -7,35 +7,10 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
-import sys
-import subprocess
 
 #modules
 from routes import routers
 # from database import init_db
-
-#venv
-venv_dir = "venv"
-
-def create_venv():
-    print("Создаю виртуальное окружение...")
-    subprocess.check_call([sys.executable, "-m", "venv", venv_dir])
-
-def install_requirements():
-    print("Устанавливаю зависимости...")
-    
-    if os.name == "nt":  # Windows
-        pip = os.path.join(venv_dir, "Scripts", "pip")
-    else:  # Linux / Mac
-        pip = os.path.join(venv_dir, "bin", "pip")
-    subprocess.check_call([pip, "install", "-r", "requirements.txt"])
-    
-def main():
-    if not os.path.exists(venv_dir):
-        create_venv()
-        install_requirements()
-        print("Готово! Перезапусти программу.")
-        return
 
 
 #core

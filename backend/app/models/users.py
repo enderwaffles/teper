@@ -32,10 +32,14 @@ class User(Base):
 
     # admin = Column(Boolean, default=False)
 
-    # 🔽 ДОБАВЬ ЭТИ 2 СТРОКИ
+    #verification
     is_verified = Column(Boolean, default=False)
     email_code = Column(String(4), nullable=True)
-    
+
+    #reset
+    reset_code = Column(String(4), default=None, nullable=True)
+    new_password = Column(String(256), default=None, nullable=True)
+
     #properties
     posts = relationship("Post", back_populates="author", cascade="all, delete-orphan")
     comments = relationship("Comment", back_populates="author", cascade="all, delete-orphan")

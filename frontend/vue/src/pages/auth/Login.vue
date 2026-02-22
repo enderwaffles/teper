@@ -9,27 +9,21 @@
 
     <div class="card">
 
-      <input
-        type="email"
-        v-model="email"
-        placeholder="Email"
-      />
+      <input type="email" v-model="email" placeholder="Email" />
 
-      <input
-        type="password"
-        v-model="password"
-        placeholder="Password"
-      />
+      <input type="password" v-model="password" placeholder="Password" />
 
-      <button
-        :disabled="loading"
-        @click="login"
-      >
+      <button :disabled="loading" @click="login">
         {{ loading ? 'Loading...' : 'Login' }}
       </button>
 
       <p v-if="message" class="error">
-        {{ message }}
+        {{ message }} <br>
+
+        <div class="links">
+          <RouterLink to="/forgot1">Forget password?</RouterLink>
+        </div>
+        
       </p>
 
       <div class="links">

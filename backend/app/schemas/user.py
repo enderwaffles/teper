@@ -31,3 +31,11 @@ class UserLogin(BaseModel):
 class VerifyIn(BaseModel):
     email: str
     code: str
+
+class UserForgot(BaseModel):
+    email: str
+    new_password: str
+
+class UserForgot2(BaseModel):
+    email: str
+    code: str

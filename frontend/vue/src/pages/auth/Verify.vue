@@ -9,16 +9,9 @@
 
     <div class="card">
 
-      <input
-        type="incode"
-        v-model="incode"
-        placeholder="Code"
-      />
+      <input type="incode" v-model="incode" placeholder="Code" />
 
-      <button
-        :disabled="loading"
-        @click="verify"
-      >
+      <button :disabled="loading" @click="verify">
         {{ loading ? 'Loading...' : 'Verify' }}
       </button>
 
@@ -27,7 +20,7 @@
       </p>
 
       <div class="links">
-        
+
       </div>
 
     </div>
@@ -65,8 +58,8 @@ async function verify() {
     message.value = ''
 
     const res = await api.post('/verify', {
-        email: email.value,
-        code: incode.value
+      email: email.value,
+      code: incode.value
     })
 
     auth.login({

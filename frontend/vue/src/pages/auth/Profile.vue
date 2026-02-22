@@ -17,7 +17,7 @@
       <button @click="logout">
         Logout
       </button>
-      
+
       <div class="links">
         <a href="#" @click.prevent="goBack">← Back</a>
       </div>

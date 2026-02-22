@@ -11,6 +11,8 @@ import Create_post from "@/pages/posts/Create_post.vue"
 import Profile from "@/pages/auth/Profile.vue";
 import Update_post from "@/pages/posts/Update_post.vue";
 import Verify from "@/pages/auth/Verify.vue";
+import Forgot1 from "@/pages/auth/Forgot1.vue";
+import Forgot2 from "@/pages/auth/Forgot2.vue";
 
 const routes = [
     { path: '/', component: Home },
@@ -19,6 +21,8 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/signup', component: Signup },
     { path: '/verify', component: Verify },
+    { path: '/forgot1', component: Forgot1 },
+    { path: '/forgot2', component: Forgot2 },
 
     { path: '/posts', component: Posts },
     { path: '/posts/:id', component: Post },
