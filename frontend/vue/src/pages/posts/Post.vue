@@ -4,32 +4,27 @@
   <div class="page">
     <div class="wrap" v-if="post">
       <!-- Post -->
-       <div class="links">
+      <div class="links">
         <a href="#" @click.prevent="goBack">← Back</a>
       </div>
       <div class="card">
         <div class="top">
           <h1 class="title">{{ post.title }}</h1>
-          
-          <div class="actions" v-if="auth.user && auth.user.id === post.author?.id">
+
+          <div class="actions" v-if="auth.user && auth.user.id === post.author?.id || auth.user.admin">
             <RouterLink class="btn" :to="`/update_post/${post_id}`">Update</RouterLink>
             <button class="btn danger" type="button" @click="delete_post">Delete</button>
           </div>
         </div>
 
         <div class="meta">
-          <span class="author">by {{ post.author?.name }}</span>
+          <span class="author">by {{ post.author?.email }}</span>
           <span v-if="post.date" class="date">{{ new Date(post.date).toLocaleString('ru-RU') }}</span>
         </div>
 
         <p class="text" v-if="post.text">{{ post.text }}</p>
 
-        <img
-          v-if="post.upload_url"
-          class="img"
-          :src="api.defaults.baseURL + post.upload_url"
-          alt=""
-        />
+        <img v-if="post.upload_url" class="img" :src="api.defaults.baseURL + post.upload_url" alt="" />
       </div>
 
       <!-- Comments -->
@@ -39,18 +34,14 @@
         <div v-if="sortedComments.length" class="comments">
           <div class="comment" v-for="c in sortedComments" :key="c.id">
             <div class="comment_top">
-              <div class="comment_author">{{ c.author?.name }}</div>
+              <div class="comment_author">{{ c.author?.email }}</div>
               <div class="comment_right">
                 <div v-if="c.date || c.created_at || c.createdAt" class="comment_date">
                   {{ commentDate(c) }}
                 </div>
 
-                <button
-                  v-if="auth.user && auth.user.id === c.author?.id"
-                  class="btn small danger"
-                  type="button"
-                  @click="delete_comment(c.id)"
-                >
+                <button v-if="auth.user && auth.user.id === c.author?.id || auth.user.admin" class="btn small danger" type="button"
+                  @click="delete_comment(c.id)">
                   Delete
                 </button>
               </div>
@@ -346,6 +337,7 @@ function goBack() {
 .muted {
   color: rgb(140, 140, 140);
 }
+
 /* Back */
 .links {
   display: flex;

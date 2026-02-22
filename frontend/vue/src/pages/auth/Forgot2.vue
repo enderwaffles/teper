@@ -73,7 +73,7 @@ async function reset() {
             nickname: res.data.user.nickname,
             name: res.data.user.name,
             surname: res.data.user.surname,
-
+            admin: res.data.user.admin
         })
 
         router.push('/')

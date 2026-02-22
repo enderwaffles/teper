@@ -26,13 +26,14 @@
         :alt="post.title || ''"
         loading="lazy"
       />
-
+      
       <div class="post_text">
         <div class="post_title">{{ post.title }}</div>
-        <div class="post_author">{{ post.author?.name || 'Unknown author' }}</div>
+        <div class="post_author">{{ post.author?.email || 'Unknown author' }}</div>
         <div v-if="post.date" class="date">
           {{ new Date(post.date).toLocaleString('ru-RU') }}
         </div>
+        
       </div>
     </RouterLink>
   </main>
@@ -46,10 +47,18 @@
 <script setup>
 import Header from '@/components/Header.vue'
 import api from '@/api/api'
+
 import { onMounted, ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const route = useRoute()
+const router = useRouter()
+const auth = useAuthStore()
 
 const posts = ref([])
 const loading = ref(true)
+
 
 const sortedPosts = computed(() => {
   // если даты нет — такие посты уйдут вниз
@@ -75,6 +84,7 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
 </script>
 
 <style scoped>

@@ -13,6 +13,7 @@
       <p><b>Nickname:</b> {{ auth.user?.nickname }}</p>
       <p><b>Name:</b> {{ auth.user?.name }}</p>
       <p><b>Surname:</b> {{ auth.user?.surname }}</p>
+      <p v-if="auth.user.admin" style="color: red;">You are admin</p>
 
       <button @click="logout">
         Logout

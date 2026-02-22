@@ -1,31 +1,31 @@
 <template>
 
-<header class="header">
+    <header class="header">
 
-<div class="part">
-    <h1>Forgeswords</h1>
-</div>
+        <div class="part">
+            <h1>Forgeswords</h1>
+        </div>
 
-<div class="part">
-    <RouterLink class="nav-link" to="/">Home </RouterLink>
-    <RouterLink class="nav-link" to="/about">About </RouterLink>
-    <RouterLink class="nav-link" to="/posts">Posts </RouterLink>
-    <RouterLink v-if="auth.session" to="/create_post">Create post </RouterLink>
-</div>
+        <div class="part">
+            <RouterLink class="nav-link" to="/">Home </RouterLink>
+            <RouterLink class="nav-link" to="/about">About </RouterLink>
+            <RouterLink class="nav-link" to="/posts">Posts </RouterLink>
+            <RouterLink v-if="auth.session" to="/create_post">Create post </RouterLink>
+        </div>
 
-<div class="part">
-    <div v-if="!auth.session">
-        <RouterLink class="auth-link signup-btn" to="/signup">Sign up </RouterLink>
-        <RouterLink class="auth-link" to="/login">Login </RouterLink>
-    </div>  
+        <div class="part">
+            <div v-if="!auth.session">
+                <RouterLink class="auth-link signup-btn" to="/signup">Sign up </RouterLink>
+                <RouterLink class="auth-link" to="/login">Login </RouterLink>
+            </div>
 
-    <div v-else>
-        <RouterLink class="auth-link" to="/profile">Profile</RouterLink>
-    </div>
-</div>
+            <div v-else>
+                <RouterLink class="auth-link" to="/myprofile">Profile</RouterLink>
+            </div>
+        </div>
 
 
-</header>
+    </header>
 
 </template>
 
@@ -36,7 +36,6 @@ const auth = useAuthStore()
 </script>
 
 <style scoped>
-
 h1 {
     color: coral;
 }
@@ -44,7 +43,7 @@ h1 {
 .header {
     display: flex;
     align-items: center;
-    padding: 15px 30px; 
+    padding: 15px 30px;
 
     background: rgb(20, 20, 20);
     border-bottom: 1px solid rgb(30, 30, 30);
@@ -88,38 +87,36 @@ h1 {
 }
 
 .router-link-exact-active {
-  background: rgba(255, 127, 80, 0.25);
-  color: white;
+    background: rgba(255, 127, 80, 0.25);
+    color: white;
 }
 
 
 /* Мобильная версия */
 @media (max-width: 768px) {
 
-  .header {
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px;
-  }
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
 
-  /* Центрируем всё */
-  .part {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
+    /* Центрируем всё */
+    .part {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 
-  /* Меню */
-  .part:nth-child(2) {
-    flex-wrap: wrap;
-    gap: 15px;
-  }
+    /* Меню */
+    .part:nth-child(2) {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
 
-  /* Правый блок */
-  .part:last-child {
-    justify-content: center;
-  }
+    /* Правый блок */
+    .part:last-child {
+        justify-content: center;
+    }
 }
-
-
 </style>

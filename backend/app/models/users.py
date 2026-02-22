@@ -26,11 +26,10 @@ class User(Base):
 
     name = Column(String(24), nullable=False)
     surname = Column(String(24), nullable=False)
-
     password = Column(String(256), nullable=False) #hashed by werkzeug
-    # avatar_url = Column(String(512), nullable=True) #profile picture  
-
-    # admin = Column(Boolean, default=False)
+    
+    avatar_url = Column(String(512), nullable=True) #profile picture  
+    admin = Column(Boolean, default=False)
 
     #verification
     is_verified = Column(Boolean, default=False)

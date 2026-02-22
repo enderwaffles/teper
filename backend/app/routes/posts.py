@@ -87,7 +87,7 @@ def delete_post(id: int,
     if not obj:
         raise HTTPException(status_code=404, detail="Post not found")
     
-    if obj.author_id != user.id:
+    if obj.author_id != user.id and user.admin != True:
         raise HTTPException(status_code=403, detail="Method not allowed")
     
     db.delete(obj)
@@ -154,7 +154,7 @@ def delete_comment(comment_id: int,
     if not obj:
         raise HTTPException(status_code=404, detail="Post not found")
     
-    if obj.author_id != user.id:
+    if obj.author_id != user.id and user.admin != True:
         raise HTTPException(status_code=403, detail="Method not allowed")
     
     db.delete(obj)

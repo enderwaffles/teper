@@ -11,7 +11,8 @@ Hello everybody :))), this is FastAPI + Vue project, you can contact me with:
 
 ```bash
 cd .\backend\app\
-python main.py
+python -m venv venv
+venv/Scripts/Activate
 alembic upgrade head
 uvicorn main:app --reload
 

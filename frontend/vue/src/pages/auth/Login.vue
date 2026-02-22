@@ -23,7 +23,7 @@
         <div class="links">
           <RouterLink to="/forgot1">Forget password?</RouterLink>
         </div>
-        
+
       </p>
 
       <div class="links">
@@ -78,7 +78,7 @@ async function login() {
       nickname: res.data.user.nickname,
       name: res.data.user.name,
       surname: res.data.user.surname,
-
+      admin: res.data.user.admin
     })
 
     router.push('/')

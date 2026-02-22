@@ -14,6 +14,8 @@ from typing import List
 from database import get_db
 from models import User
 from schemas.user import UserSignup, UserLogin, VerifyIn, UserForgot, UserForgot2
+from dotenv import load_dotenv
+import os
 
 #auth
 from auth.token import create_token, decode_token
@@ -24,16 +26,33 @@ from auth.mail import sendcode
 
 #configs
 router = APIRouter(prefix="", tags=["authentication"])
-
+load_dotenv()
+# admin = os.getenv("admin") #админы внутри env написаны как admins = admin1, admin2
 
 
 #core
+@router.post("/make_admin")
+def make_admin(db: Session = Depends(get_db),
+               user: User = Depends(get_user)
+               ):
+    admin = "enderwaffles2004@gmail.com"
+    print(user.email)
+    print(admin)
+    # obj = db.query(User).filter(User.id == user.id).first()
+
+    if not user.email == admin:
+        raise HTTPException(status_code=403)
+    
+    user.admin = True
+    db.commit()
+    
+    return {"message": "You are admin", "user": user, "admin": admin}
+
 @router.get("/protected")
 def protected(user: User = Depends(get_user)):
     return {
         "message": "access free",
-        "id": user.id,
-        "email": user.email,
+        "user": user
     }
 
 @router.post("/signup", status_code=201)

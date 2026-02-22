@@ -21,11 +21,13 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 
 #core
-@router.get("/", response_model=List[UserResponse])
+# @router.get("/", response_model=List[UserResponse])
+@router.get("/")
 def users(db: Session = Depends(get_db)):
     return db.query(User).all()
 
-@router.get("/{id}", response_model=UserResponse)
+# @router.get("/{id}", response_model=UserResponse)
+@router.get("/{id}")
 def user(id: int, db: Session = Depends(get_db)):
     obj = db.query(User).filter(User.id == id).first()
     if not obj:

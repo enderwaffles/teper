@@ -8,7 +8,7 @@ import Signup from "@/pages/auth/Signup.vue"
 import Posts from "@/pages/posts/Posts.vue"
 import Post from "@/pages/posts/Post.vue"
 import Create_post from "@/pages/posts/Create_post.vue"
-import Profile from "@/pages/auth/Profile.vue";
+import MyProfile from "@/pages/auth/MyProfile.vue";
 import Update_post from "@/pages/posts/Update_post.vue";
 import Verify from "@/pages/auth/Verify.vue";
 import Forgot1 from "@/pages/auth/Forgot1.vue";
@@ -23,11 +23,11 @@ const routes = [
     { path: '/verify', component: Verify },
     { path: '/forgot1', component: Forgot1 },
     { path: '/forgot2', component: Forgot2 },
+    { path: '/myprofile', component: MyProfile, meta: { requiresAuth: true } },
 
     { path: '/posts', component: Posts },
     { path: '/posts/:id', component: Post },
     { path: '/create_post', component: Create_post, meta: { requiresAuth: true } },
-    { path: '/profile', component: Profile, meta: { requiresAuth: true } },
     { path: '/update_post/:id', component: Update_post, meta: { requiresAuth: true } },
 
 
