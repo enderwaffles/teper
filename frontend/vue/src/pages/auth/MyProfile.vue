@@ -27,14 +27,26 @@
   </main>
 </template>
 
+
 <script setup>
+//imports
 import Header from '@/components/Header.vue'
+import api from '@/api/api'
+
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const auth = useAuthStore()
+const route = useRoute()
 const router = useRouter()
 
+
+//data
+
+
+
+//functions
 function logout() {
   auth.logout()
   router.push('/')

@@ -41,16 +41,22 @@
   </main>
 </template>
 
+
 <script setup>
+//imports
 import Header from '@/components/Header.vue'
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { useRouter } from 'vue-router'
 import api from '@/api/api'
 
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { useRoute, useRouter } from 'vue-router'
+
 const auth = useAuthStore()
+const route = useRoute()
 const router = useRouter()
 
+
+//data
 const email = ref('')
 const password = ref('')
 

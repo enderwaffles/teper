@@ -33,24 +33,29 @@
     </main>
 </template>
 
+
 <script setup>
+//imports
 import Header from '@/components/Header.vue'
+import api from '@/api/api'
+
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRoute, useRouter } from 'vue-router'
-import api from '@/api/api'
 
 const auth = useAuthStore()
-const router = useRouter()
 const route = useRoute()
+const router = useRouter()
 
-const email = ref(route.query.email || '')
 
-const incode = ref('')
+//data
+let email = ref(route.query.email || '')
+let incode = ref('')
+let message = ref('')
+let loading = ref(false)
 
-const message = ref('')
-const loading = ref(false)
 
+//functions
 async function reset() {
 
     if (!incode.value) {
@@ -88,88 +93,7 @@ async function reset() {
 }
 </script>
 
+
 <style scoped>
-.title {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
 
-/* Центрируем */
-.auth {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* Карточка */
-.card {
-    width: 100%;
-    max-width: 420px;
-    background-color: rgb(30, 30, 30);
-    border-radius: 20px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* Инпуты */
-input {
-    background: rgb(20, 20, 20);
-    border: 1px solid rgb(50, 50, 50);
-    border-radius: 10px;
-    padding: 10px 12px;
-    color: rgb(200, 200, 200);
-    font-size: 14px;
-}
-
-input:focus {
-    outline: none;
-    border-color: rgb(90, 90, 90);
-}
-
-/* Кнопка */
-button {
-    background: rgb(50, 50, 50);
-    border: none;
-    border-radius: 12px;
-    padding: 10px;
-    color: rgb(220, 220, 220);
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-button:hover {
-    background: rgb(70, 70, 70);
-}
-
-button:disabled {
-    opacity: 0.6;
-    cursor: default;
-}
-
-/* Ошибки */
-.error {
-    color: #ff6b6b;
-    font-size: 13px;
-    text-align: center;
-}
-
-/* Ссылки */
-.links {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-}
-
-.links a {
-    color: rgb(120, 120, 120);
-    text-decoration: none;
-}
-
-.links a:hover {
-    color: rgb(180, 180, 180);
-}
 </style>

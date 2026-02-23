@@ -50,24 +50,32 @@
   </main>
 </template>
 
+
 <script setup>
+//imports
 import Header from '@/components/Header.vue'
 import api from '@/api/api'
+
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
 const router = useRouter()
+const auth = useAuthStore()
 
-const post_id = route.params.id
 
-const title = ref('')
-const text = ref('')
+//data
+let post_id = route.params.id
+let title = ref("")
+let text = ref("")
+let loading = ref(true)
+let saving = ref(false)
 
-const loading = ref(true)
-const saving = ref(false)
-const message = ref('')
+let message = ref("")
 
+
+//functions
 onMounted(async () => {
   try {
     loading.value = true
@@ -112,100 +120,10 @@ function goBack() {
   if (window.history.length > 1) router.back()
   else router.push('/')
 }
+
 </script>
 
+
 <style scoped>
-.title {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
 
-/* Loading / empty */
-.empty {
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-}
-
-/* Центр */
-.update {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* Карточка */
-.card {
-  width: 100%;
-  max-width: 520px;
-  background-color: rgb(30, 30, 30);
-  border-radius: 20px;
-  padding: 24px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* Инпуты */
-input,
-textarea {
-  background: rgb(20, 20, 20);
-  border: 1px solid rgb(50, 50, 50);
-  border-radius: 10px;
-  padding: 10px 12px;
-  color: rgb(200, 200, 200);
-  font-size: 14px;
-  resize: none;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: rgb(90, 90, 90);
-}
-
-/* Кнопка */
-button {
-  background: rgb(60, 60, 60);
-  border: none;
-  border-radius: 12px;
-  padding: 10px;
-  color: rgb(220, 220, 220);
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  background: rgb(80, 80, 80);
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
-/* Ошибка */
-.error {
-  color: #ff6b6b;
-  font-size: 13px;
-  text-align: center;
-}
-
-/* Ссылки */
-.links {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-}
-
-.links a {
-  color: rgb(120, 120, 120);
-  text-decoration: none;
-}
-
-.links a:hover {
-  color: rgb(180, 180, 180);
-}
 </style>

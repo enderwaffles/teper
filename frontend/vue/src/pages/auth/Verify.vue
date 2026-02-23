@@ -29,23 +29,27 @@
 </template>
 
 <script setup>
+//imports
 import Header from '@/components/Header.vue'
+import api from '@/api/api'
+
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRoute, useRouter } from 'vue-router'
-import api from '@/api/api'
 
 const auth = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 
-const email = ref(route.query.email || '')
 
-const incode = ref('')
+//data
+let email = ref(route.query.email || '')
+let incode = ref('')
+let message = ref('')
+let loading = ref(false)
 
-const message = ref('')
-const loading = ref(false)
 
+//functions
 async function verify() {
 
   if (!incode.value) {

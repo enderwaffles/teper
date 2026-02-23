@@ -80,10 +80,13 @@
   </div>
 </template>
 
+
 <script setup>
+//imports
 import Header from '@/components/Header.vue'
 import api from '@/api/api'
-import { onMounted, ref, computed } from 'vue'
+
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
@@ -91,10 +94,14 @@ const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
 
-const post = ref(null)
-const post_id = route.params.id
-const comment = ref('')
 
+//data
+let post = ref(null)
+let post_id = route.params.id
+let comment = ref('')
+
+
+//functions
 onMounted(async () => {
   const res = await api.get(`/posts/${post_id}`)
   post.value = res.data
@@ -148,209 +155,7 @@ function goBack() {
 }
 </script>
 
+
 <style scoped>
-.page {
-  padding: 20px;
-}
 
-.wrap {
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.card {
-  background: rgb(30, 30, 30);
-  border-radius: 18px;
-  padding: 16px;
-}
-
-.top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.title {
-  margin: 0;
-  font-size: 22px;
-  color: rgb(230, 230, 230);
-}
-
-.meta {
-  margin-top: 8px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  color: rgb(140, 140, 140);
-  font-size: 13px;
-}
-
-.text {
-  margin: 14px 0 0;
-  color: rgb(200, 200, 200);
-  line-height: 1.5;
-}
-
-.img {
-  margin-top: 12px;
-  width: 100%;
-  max-height: 420px;
-  object-fit: cover;
-  border-radius: 14px;
-  display: block;
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
-.btn {
-  background: rgb(50, 50, 50);
-  color: rgb(230, 230, 230);
-  border: 0;
-  padding: 8px 12px;
-  border-radius: 10px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.2s;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn:hover {
-  background: rgb(65, 65, 65);
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: default;
-}
-
-.danger {
-  background: rgb(90, 40, 40);
-}
-
-.danger:hover {
-  background: rgb(120, 45, 45);
-}
-
-.small {
-  padding: 6px 10px;
-  border-radius: 9px;
-  font-size: 12px;
-}
-
-.h2 {
-  margin: 0 0 10px;
-  color: rgb(230, 230, 230);
-  font-size: 18px;
-}
-
-.comments {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.comment {
-  background: rgb(40, 40, 40);
-  border-radius: 14px;
-  padding: 12px;
-}
-
-.comment_top {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  align-items: center;
-}
-
-.comment_author {
-  color: rgb(210, 210, 210);
-  font-size: 14px;
-}
-
-.comment_right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.comment_date {
-  color: rgb(140, 140, 140);
-  font-size: 12px;
-}
-
-.comment_text {
-  margin-top: 8px;
-  color: rgb(200, 200, 200);
-  line-height: 1.45;
-}
-
-.hr {
-  height: 1px;
-  background: rgb(55, 55, 55);
-  margin: 14px 0;
-}
-
-.write {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.write_top {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.me {
-  color: rgb(210, 210, 210);
-}
-
-.write_row {
-  display: flex;
-  gap: 10px;
-}
-
-.input {
-  flex: 1;
-  background: rgb(40, 40, 40);
-  border: 1px solid rgb(60, 60, 60);
-  color: rgb(230, 230, 230);
-  padding: 10px 12px;
-  border-radius: 12px;
-  outline: none;
-}
-
-.input:focus {
-  border-color: rgb(90, 90, 90);
-}
-
-.muted {
-  color: rgb(140, 140, 140);
-}
-
-/* Back */
-.links {
-  display: flex;
-  justify-content: start;
-  font-size: 13px;
-}
-
-.links a {
-  color: rgb(120, 120, 120);
-  text-decoration: none;
-}
-
-.links a:hover {
-  color: rgb(180, 180, 180);
-}
 </style>

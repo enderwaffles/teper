@@ -44,11 +44,13 @@
   </main>
 </template>
 
+
 <script setup>
+//imports
 import Header from '@/components/Header.vue'
 import api from '@/api/api'
 
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
@@ -56,8 +58,10 @@ const route = useRoute()
 const router = useRouter()
 const auth = useAuthStore()
 
-const posts = ref([])
-const loading = ref(true)
+
+//data
+let posts = ref([])
+let loading = ref(true)
 
 
 const sortedPosts = computed(() => {
@@ -69,6 +73,8 @@ const sortedPosts = computed(() => {
   })
 })
 
+
+//functions
 function postImageUrl(post) {
   const path = post?.upload_url || post?.file_path
   if (!path) return ''
@@ -87,78 +93,7 @@ onMounted(async () => {
 
 </script>
 
+
 <style scoped>
-.title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-}
 
-/* Сетка 3 в ряд */
-main {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-  padding: 0 20px 20px;
-}
-
-/* Адаптив */
-@media (max-width: 900px) {
-  main {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 600px) {
-  main {
-    grid-template-columns: 1fr;
-  }
-}
-
-.post {
-  background-color: rgb(30, 30, 30);
-  border-radius: 20px;
-  text-decoration: none;
-  overflow: hidden;
-  cursor: pointer;
-  transition: 0.2s;
-  display: flex;
-  flex-direction: column;
-}
-
-.post:hover {
-  background-color: rgb(50, 50, 50);
-}
-
-.post_img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  display: block;
-}
-
-.post_text {
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.post_title {
-  color: rgb(200, 200, 200);
-  font-size: 16px;
-}
-
-.post_author,
-.date {
-  color: rgb(120, 120, 120);
-  font-size: 13px;
-}
-
-/* Пусто / загрузка */
-.empty {
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-}
 </style>
