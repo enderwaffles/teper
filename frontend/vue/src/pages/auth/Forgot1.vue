@@ -1,32 +1,18 @@
 <template>
     <Header />
 
-    <div class="title">
+    <div>
         <h1>New password</h1>
     </div>
 
-    <main class="auth">
+    <div>
+        <input type="email" v-model="email" placeholder="Email" />
+        <input type="new_password" v-model="new_password" placeholder="New password" />
 
-        <div class="card">
+        <button :disabled="loading" @click="send">{{ loading ? 'Loading...' : 'Reset password' }}</button>
+        <p v-if="message" class="error">{{ message }}</p>
+    </div>
 
-            <input type="email" v-model="email" placeholder="Email" />
-            <input type="new_password" v-model="new_password" placeholder="New password" />
-
-            <button :disabled="loading" @click="send">
-                {{ loading ? 'Loading...' : 'Change password' }}
-            </button>
-
-            <p v-if="message" class="error">
-                {{ message }}
-            </p>
-
-            <div class="links">
-
-            </div>
-
-        </div>
-
-    </main>
 </template>
 
 
@@ -45,24 +31,19 @@ const router = useRouter()
 
 
 //data
-let email = ref("")
-let new_password = ref("")
-let message = ref('')
+var email = ref("")
+var new_password = ref("")
+
+let message = ref("")
 let loading = ref(false)
 
 
 //functions
 async function send() {
 
-    if(!email.value || !new_password) {
-        message.value = "Fill all fields"
-        return
-    }
-
-
     try {
         loading.value = true
-        message.value = ''
+        message.value = ""
 
         const res = await api.post('/forgot1', {
             email: email.value,
@@ -70,15 +51,17 @@ async function send() {
         })
 
         router.push(`/forgot2?email=${email.value}`)
+
     }
     catch (error) {
         console.log(error)
-        message.value = 'Signup failed'
+        message.value = "Reset failed"
     }
     finally {
         loading.value = false
     }
 }
+
 </script>
 
 

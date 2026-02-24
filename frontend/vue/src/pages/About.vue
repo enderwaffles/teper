@@ -3,12 +3,10 @@
   
   <div>
     <h1>About</h1>
-
   </div>
 
   <div>
     <p>{{ message }}</p>
-
   </div>
   
 </template>

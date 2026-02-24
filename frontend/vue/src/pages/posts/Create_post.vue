@@ -1,40 +1,18 @@
 <template>
   <Header />
 
-  <div class="title">
+  <div>
     <h1>Create post</h1>
   </div>
 
-  <main class="create">
-    <div class="card">
+  <div>
+    <input type="text" v-model="title" placeholder="Title">
+    <input type="text" v-model="text" placeholder="Text">
+    <input type="file" v-on:change="onFileChange">
 
-      <input v-model="title" placeholder="Title" />
+    <button v-on:click="send">Send</button>
+  </div>
 
-      <textarea
-        v-model="text"
-        placeholder="Text"
-        rows="5"
-      ></textarea>
-
-      <label class="file">
-        Upload image
-        <input type="file" @change="getFile" hidden />
-      </label>
-
-      <p v-if="file" class="filename">
-        {{ file.name }}
-      </p>
-
-      <button :disabled="loading" @click="send">
-        {{ loading ? 'Sending...' : 'Send' }}
-      </button>
-
-      <div class="links">
-        <a href="#" @click.prevent="goBack">← Back</a>
-      </div>
-
-    </div>
-  </main>
 </template>
 
 
@@ -53,50 +31,27 @@ const auth = useAuthStore()
 
 
 //data
-let title = ref('')
-let text = ref('')
+let title = ref("")
+let text = ref("")
 let file = ref(null)
-let loading = ref(false)
 
 
 //functions
-function getFile(e) {
-  file.value = e.target.files?.[0] ?? null
+function onFileChange(e) {
+  file.value = e.target.files[0]
 }
-
-
 
 async function send() {
-  if (!title.value || !text.value) {
-    alert('Fill in all fields')
-    return
+
+  let form = new FormData()
+  form.append("title", title.value)
+  form.append("text", text.value)
+  if (file.value) {
+    form.append("file", file.value)
   }
 
-  try {
-    loading.value = true
-
-    const form = new FormData()
-    form.append('title', title.value)
-    form.append('text', text.value)
-
-    if (file.value) {
-      form.append('file', file.value)
-    }
-
-    await api.post('/posts', form)
-    router.push('/posts')
-  } catch (err) {
-    console.error(err)
-    alert('Error while sending post')
-  } finally {
-    loading.value = false
-  }
-}
-
-function goBack() {
-  // если человек открыл страницу напрямую — отправим домой
-  if (window.history.length > 1) router.back()
-  else router.push('/')
+  const res = await api.post("/posts", form)
+  router.push("/posts")
 }
 
 </script>

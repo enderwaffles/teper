@@ -1,47 +1,21 @@
 <template>
   <Header />
 
-  <div class="title">
+  <div>
     <h1>Posts</h1>
   </div>
 
-  <!-- Loading -->
-  <main v-if="loading" class="empty">
-    <p>Loading...</p>
-  </main>
+  <div v-for="post in posts" :key="post.id">
+    <p>{{ post.id }}</p>
+    <p>{{ post.title }}</p>
+    <p>{{ post.text }}</p>
+    <img :src="api.defaults.baseURL + post.upload_url" alt="" style="width: 200px;">
+    <p>{{ post.date }}</p>
+    <p>{{ post.author.email }}</p>
+    <RouterLink :to="`/posts/${post.id}`">Open post</RouterLink>
+    <hr>
+  </div>
 
-  <!-- List -->
-  <main v-else-if="sortedPosts.length">
-    <RouterLink
-      v-for="post in sortedPosts"
-      :key="post.id"
-      :to="`/posts/${post.id}`"
-      class="post"
-      :aria-label="`Open post: ${post.title}`"
-    >
-      <img
-        v-if="postImageUrl(post)"
-        :src="postImageUrl(post)"
-        class="post_img"
-        :alt="post.title || ''"
-        loading="lazy"
-      />
-      
-      <div class="post_text">
-        <div class="post_title">{{ post.title }}</div>
-        <div class="post_author">{{ post.author?.email || 'Unknown author' }}</div>
-        <div v-if="post.date" class="date">
-          {{ new Date(post.date).toLocaleString('ru-RU') }}
-        </div>
-        
-      </div>
-    </RouterLink>
-  </main>
-
-  <!-- Empty -->
-  <main v-else class="empty">
-    <p>No post</p>
-  </main>
 </template>
 
 
@@ -61,34 +35,12 @@ const auth = useAuthStore()
 
 //data
 let posts = ref([])
-let loading = ref(true)
-
-
-const sortedPosts = computed(() => {
-  // если даты нет — такие посты уйдут вниз
-  return [...posts.value].sort((a, b) => {
-    const da = a?.date ? new Date(a.date).getTime() : 0
-    const db = b?.date ? new Date(b.date).getTime() : 0
-    return db - da
-  })
-})
 
 
 //functions
-function postImageUrl(post) {
-  const path = post?.upload_url || post?.file_path
-  if (!path) return ''
-  return api.defaults.baseURL + path
-}
-
 onMounted(async () => {
-  try {
-    loading.value = true
     const res = await api.get('/posts')
     posts.value = res.data
-  } finally {
-    loading.value = false
-  }
 })
 
 </script>

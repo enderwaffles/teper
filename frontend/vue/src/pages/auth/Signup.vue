@@ -1,74 +1,24 @@
 <template>
   <Header />
 
-  <div class="title">
+  <div>
     <h1>Signup</h1>
   </div>
 
-  <main class="auth">
+  <div>
+    <input type="email" v-model="email" placeholder="Email" />
+    <input type="text" v-model="nickname" placeholder="Nickname" />
+    <input type="text" v-model="name" placeholder="Name" />
+    <input type="text" v-model="surname" placeholder="Surname" />
+    <input type="password" v-model="password" placeholder="Password" />
+    <input type="password" v-model="repeat_password" placeholder="Repeat password" />
 
-    <div class="card">
-
-      <input
-        type="email"
-        v-model="email"
-        placeholder="Email"
-      />
-
-      <input
-        type="text"
-        v-model="nickname"
-        placeholder="Nickname"
-      />
-
-      <input
-        type="text"
-        v-model="name"
-        placeholder="Name"
-      />
-
-      <input
-        type="text"
-        v-model="surname"
-        placeholder="Surname"
-      />
-
-      <input
-        type="password"
-        v-model="password"
-        placeholder="Password"
-      />
-
-      <input
-        type="password"
-        v-model="repeat_password"
-        placeholder="Repeat password"
-      />
-
-      <button
-        :disabled="loading"
-        @click="signup"
-      >
-        {{ loading ? 'Loading...' : 'Signup' }}
-      </button>
-
-      <p v-if="message" class="error">
-        {{ message }}
-      </p>
-
-      <div class="links">
-        <RouterLink to="/login">
-          Already have an account?
-        </RouterLink>
-
-        <RouterLink to="/">
-          Back to home
-        </RouterLink>
-      </div>
-
-    </div>
-
-  </main>
+    <button v-click="signup">{{ loading ? 'Loading...' : 'Signup' }}</button>
+    <p v-if="message">{{ message }}</p>
+    <RouterLink to="/login">Already have an account?</RouterLink>
+    <RouterLink to="/">Back to home</RouterLink>
+  </div>
+      
 </template>
 
 
@@ -87,46 +37,36 @@ const router = useRouter()
 
 
 //data
-let email = ref('')
-let nickname = ref('')
-let name = ref('')
-let surname = ref('')
-let password = ref('')
-let repeat_password = ref('')
-let message = ref('')
+var email = ref("")
+var nickname = ref("")
+var name = ref("")
+var surname = ref("")
+var password = ref("")
+var repeat_password = ref("")
+
+let message = ref("")
 let loading = ref(false)
 
 
 //functions
 async function signup() {
 
-  if (
-    !email.value ||
-    !nickname.value ||
-    !name.value ||
-    !surname.value ||
-    !password.value ||
-    !repeat_password.value
-  ) {
-    message.value = 'Fill in all fields'
-    return
-  }
-
   if (password.value !== repeat_password.value) {
-    message.value = 'Passwords do not match'
+    message.value = "Passwords do not match"
     return
   }
 
   try {
     loading.value = true
-    message.value = ''
+    message.value = ""
 
     await api.post('/signup', {
       email: email.value,
       nickname: nickname.value,
       name: name.value,
       surname: surname.value,
-      password: password.value
+      password: password.value,
+      admin: res.data.user.admin
     })
 
     router.push(`/verify?email=${email.value}`)
@@ -134,12 +74,13 @@ async function signup() {
   }
   catch (error) {
     console.log(error)
-    message.value = 'Signup failed'
+    message.value = "Signup failed"
   }
   finally {
     loading.value = false
   }
 }
+
 </script>
 
 

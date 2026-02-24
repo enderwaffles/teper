@@ -1,36 +1,21 @@
 <template>
     <Header />
 
-    <div class="title">
+    <div>
         <h1>Reset password</h1>
     </div>
 
-    <div class="title">
+    <div>
         <p>We sent to your email code</p>
     </div>
 
+    <div>
+        <input type="incode" v-model="incode" placeholder="Code" />
+        
+        <button :disabled="loading" @click="reset">{{ loading ? 'Loading...' : 'Reset' }}</button>
+        <p v-if="message" class="error">{{ message }}</p>
+    </div>
 
-    <main class="auth">
-
-        <div class="card">
-
-            <input type="incode" v-model="incode" placeholder="Code" />
-
-            <button :disabled="loading" @click="reset">
-                {{ loading ? 'Loading...' : 'Reset' }}
-            </button>
-
-            <p v-if="message" class="error">
-                {{ message }}
-            </p>
-
-            <div class="links">
-
-            </div>
-
-        </div>
-
-    </main>
 </template>
 
 
@@ -49,9 +34,11 @@ const router = useRouter()
 
 
 //data
-let email = ref(route.query.email || '')
-let incode = ref('')
-let message = ref('')
+const email = ref(route.query.email || "")
+
+var incode = ref("")
+
+let message = ref("")
 let loading = ref(false)
 
 
@@ -85,7 +72,7 @@ async function reset() {
     }
     catch (error) {
         console.log(error)
-        message.value = 'Reset failed'
+        message.value = "Reset failed"
     }
     finally {
         loading.value = false
