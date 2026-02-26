@@ -1,7 +1,7 @@
 <template>
   <Header />
 
-  <div>
+  <div style="display: flex; justify-content: center; align-items: center;">
     <h1>Posts</h1>
   </div>
 
@@ -9,11 +9,18 @@
     <p>{{ post.id }}</p>
     <p>{{ post.title }}</p>
     <p>{{ post.text }}</p>
-    <img :src="api.defaults.baseURL + post.upload_url" alt="" style="width: 200px;">
+    <!-- <img :src="api.defaults.baseURL + post.upload_url" alt="" style="width: 200px;"> -->
+    
+    <div v-if="post.uploads.length">
+      <div v-for="upload in post.uploads" :key="upload.id">
+        <img :src="api.defaults.baseURL + upload.upload_url" style="width:200px;">
+      </div>
+    </div>
     <p>{{ post.date }}</p>
     <p>{{ post.author.email }}</p>
+    <RouterLink :to="`/user/${post.author.nickname}`">Open user</RouterLink> <br>
     <RouterLink :to="`/posts/${post.id}`">Open post</RouterLink>
-    <hr>
+    <br> <br> <br>
   </div>
 
 </template>

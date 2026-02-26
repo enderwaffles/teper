@@ -1,11 +1,11 @@
 <template>
   <Header />
   
-  <div>
+  <div style="display: flex; justify-content: center; align-items: center;">
     <h1>About</h1>
   </div>
-
-  <div>
+  
+  <div style="display: flex; justify-content: center; align-items: center;">
     <p>{{ message }}</p>
   </div>
   

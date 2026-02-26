@@ -12,14 +12,15 @@
             <RouterLink class="nav-link" to="/posts">Posts </RouterLink>
             <RouterLink v-if="auth.session" to="/create_post">Create post </RouterLink>
         </div>
-
+        
         <div class="part">
             <div v-if="!auth.session">
                 <RouterLink class="auth-link signup-btn" to="/signup">Sign up </RouterLink>
                 <RouterLink class="auth-link" to="/login">Login </RouterLink>
             </div>
-
+            
             <div v-else>
+                <RouterLink v-if="auth.session" to="/chats">Chats </RouterLink>
                 <RouterLink class="auth-link" to="/myprofile">Profile</RouterLink>
             </div>
         </div>

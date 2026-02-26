@@ -8,7 +8,7 @@
   <div>
     <input type="text" v-model="title" placeholder="Title">
     <input type="text" v-model="text" placeholder="Text">
-    <input type="file" v-on:change="onFileChange">
+    <input type="file" multiple v-on:change="onFileChange">
 
     <button v-on:click="send">Send</button>
   </div>
@@ -33,12 +33,12 @@ const auth = useAuthStore()
 //data
 let title = ref("")
 let text = ref("")
-let file = ref(null)
+let files = ref([])
 
 
 //functions
 function onFileChange(e) {
-  file.value = e.target.files[0]
+  files.value = Array.from(e.target.files)
 }
 
 async function send() {
@@ -46,10 +46,15 @@ async function send() {
   let form = new FormData()
   form.append("title", title.value)
   form.append("text", text.value)
-  if (file.value) {
-    form.append("file", file.value)
-  }
+  
+  // if (files.value) {
+  //   form.append("uploads", files.value)
+  // }
 
+  files.value.forEach(file => {
+    form.append("files", file)
+  })
+  
   const res = await api.post("/posts", form)
   router.push("/posts")
 }

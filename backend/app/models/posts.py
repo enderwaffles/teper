@@ -19,7 +19,7 @@ class Post(Base):
     #personal
     title = Column(String(24), nullable=False)
     text = Column(String, nullable=False)
-    upload_url = Column(String, nullable=True)
+    # upload_url = Column(String, nullable=True)
     date = Column(DateTime, default=datetime.utcnow)
 
     #owner
@@ -27,7 +27,18 @@ class Post(Base):
 
     #properties
     author = relationship("User", back_populates="posts")
+    uploads = relationship("PostsUploads", back_populates="post", cascade="all, delete-orphan")
     comments = relationship("Comment", back_populates="post", cascade="all, delete-orphan")
 
 
+class PostsUploads(Base):
+    __tablename__ = "posts_uploads"
+    __table_args__ = {"sqlite_autoincrement": True}
+    id = Column(Integer, primary_key=True)
+    
+    upload_url = Column(String, nullable=False)
+    
+    post_id = Column(Integer, ForeignKey("posts.id"))
+
+    post = relationship("Post", back_populates="uploads")
 

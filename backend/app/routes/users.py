@@ -27,9 +27,9 @@ def users(db: Session = Depends(get_db)):
     return db.query(User).all()
 
 # @router.get("/{id}", response_model=UserResponse)
-@router.get("/{id}")
-def user(id: int, db: Session = Depends(get_db)):
-    obj = db.query(User).filter(User.id == id).first()
+@router.get("/{nickname}")
+def user(nickname: str, db: Session = Depends(get_db)):
+    obj = db.query(User).filter(User.nickname == nickname).first()
     if not obj:
         raise HTTPException(status_code=404, detail="User not found")
     return obj

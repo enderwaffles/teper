@@ -12,7 +12,7 @@ from pathlib import Path
 
 #modules
 from database import get_db
-from models import Post, Comment
+from models import Post, Comment, PostsUploads
 from schemas.post import PostResponse, PostsResponse
 from schemas.comment import CommentResponse
 from auth import User, get_user
@@ -23,23 +23,25 @@ router = APIRouter(prefix="/posts", tags=["posts"])
 
 
 #core
-@router.get("/", response_model=List[PostsResponse])
+@router.get("/")
 def posts(db: Session = Depends(get_db)
           ):
 
     obj = db.query(Post).options(
-        joinedload(Post.author)
+        joinedload(Post.author),
+        joinedload(Post.uploads)
         ).all()
 
     return obj
 
-@router.get("/{id}", response_model=PostResponse)
+@router.get("/{id}")
 def post(id: int, 
          db: Session = Depends(get_db)
          ):
     
     obj = db.query(Post).options(
         joinedload(Post.author),
+        joinedload(Post.uploads),
         selectinload(Post.comments)
         ).filter(Post.id == id).first()
 
@@ -48,33 +50,41 @@ def post(id: int,
     
     return obj
 
-@router.post("/", status_code=201, response_model=PostResponse)
+@router.post("/", status_code=201)
 def create_post(title: str = Form(...),
                 text: str = Form(...),
-                file: Optional[UploadFile] = File(None),  
+                files: Optional[List[UploadFile]] = File(None),  
                 db: Session = Depends(get_db),
                 user: User = Depends(get_user),
                 ):
     
     os.makedirs("static", exist_ok=True)
 
+    if files and len(files) > 10:
+        raise HTTPException(status_code=400)
+
     obj = Post(title=title, text=text, author_id=user.id)
     db.add(obj)
     db.commit()
     db.refresh(obj)
 
-    if file is not None:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f") 
-        name = f"{obj.author_id}_{timestamp}_{obj.id}_{file.filename}"
-        disk_path = f"static/{name}"
+    if files:
+        for file in files:
 
-        with open(disk_path, "wb") as f:
-            f.write(file.file.read())
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f") 
+            name = f"{obj.author_id}_{timestamp}_{obj.id}_{file.filename}"
+            disk_path = f"static/{name}"
 
-        obj.upload_url = f"/static/{name}"
+            with open(disk_path, "wb") as f:
+                f.write(file.file.read())
+
+            posts_uploads = PostsUploads(post_id=obj.id, upload_url=f"/static/{name}")
+
+            db.add(posts_uploads)
+
         db.commit()
-        db.refresh(obj)
 
+    db.refresh(obj)
     return obj
 
 @router.delete("/{id}", status_code=204)
@@ -83,21 +93,29 @@ def delete_post(id: int,
                 user: User = Depends(get_user)
                 ):
     
-    obj = db.query(Post).filter(Post.id == id).first()
-    if not obj:
+    post = db.query(Post).filter(Post.id == id).first()
+    if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     
-    if obj.author_id != user.id and user.admin != True:
+    if post.author_id != user.id and user.admin != True:
         raise HTTPException(status_code=403, detail="Method not allowed")
     
-    db.delete(obj)
-    db.commit()
-
-    if obj.upload_url:
-        filename = obj.upload_url.replace("/static/", "")
+    uploads = db.query(PostsUploads).filter(PostsUploads.post_id == post.id).all()
+    for upload in uploads:
+        filename = upload.upload_url.replace("/static/", "")
         file_path = Path("static") / filename
         if file_path.exists():
             file_path.unlink()
+        db.delete(upload)
+
+    db.delete(post)
+    db.commit()
+
+    # if post.upload_url:
+    #     filename = post.upload_url.replace("/static/", "")
+    #     file_path = Path("static") / filename
+    #     if file_path.exists():
+    #         file_path.unlink()
 
     return None
 
