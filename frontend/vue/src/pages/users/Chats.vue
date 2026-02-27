@@ -5,6 +5,12 @@
     <h1>Chats</h1>
   </div>
 
+  <div v-for="chat in chats">
+    <RouterLink :to="`/chat/${chat.id}`">
+      {{ chat.user1_id == auth.user.id ? chat.user2.email : chat.user1.email }}
+    </RouterLink>
+  </div>
+
 </template>
 
 
@@ -23,11 +29,12 @@ const router = useRouter()
 
 
 //data
+let chats = ref([])
 
 //functions
 onMounted(async () => {
-    // const res = await api.get(`/users/${user_nickname}`)
-    // user.value = res.data
+    const res = await api.get('/chats')
+    chats.value = res.data
 })
 
 </script>

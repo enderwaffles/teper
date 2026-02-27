@@ -6,17 +6,17 @@
   </div>
 
   <div>
-    <input type="email" v-model="email" placeholder="Email" />
-    <input type="text" v-model="nickname" placeholder="Nickname" />
-    <input type="text" v-model="name" placeholder="Name" />
-    <input type="text" v-model="surname" placeholder="Surname" />
-    <input type="password" v-model="password" placeholder="Password" />
-    <input type="password" v-model="repeat_password" placeholder="Repeat password" />
+    <input type="email" v-model="email" placeholder="Email" /> <br>
+    <input type="text" v-model="nickname" placeholder="Nickname" /> <br>
+    <input type="text" v-model="name" placeholder="Name" /> <br>
+    <input type="text" v-model="surname" placeholder="Surname" /> <br>
+    <input type="password" v-model="password" placeholder="Password" /> <br>
+    <input type="password" v-model="repeat_password" placeholder="Repeat password" /> <br>
 
-    <button v-click="signup">{{ loading ? 'Loading...' : 'Signup' }}</button>
+    <button v-click="signup">{{ loading ? 'Loading...' : 'Signup' }}</button> <br>
     <p v-if="message">{{ message }}</p>
-    <RouterLink to="/login">Already have an account?</RouterLink>
-    <RouterLink to="/">Back to home</RouterLink>
+    <RouterLink to="/login">Already have an account?</RouterLink> <br>
+    <RouterLink to="/">Back to home</RouterLink> <br>
   </div>
       
 </template>

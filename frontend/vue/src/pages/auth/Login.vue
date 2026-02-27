@@ -6,13 +6,13 @@
   </div>
 
   <div>
-    <input type="email" v-model="email" placeholder="Email" />
-    <input type="password" v-model="password" placeholder="Password" />
+    <input type="email" v-model="email" placeholder="Email" /> <br>
+    <input type="password" v-model="password" placeholder="Password" /> <br>
 
-    <button v-on:click="login">{{ loading ? 'Loading...' : 'Login' }}</button>
-    <RouterLink to="/forgot1">Forget password?</RouterLink>
+    <button v-on:click="login">{{ loading ? 'Loading...' : 'Login' }}</button> <br>
+    <RouterLink to="/forgot1">Forget password?</RouterLink> <br>
     <p v-if="message">{{ message }}</p>
-    <RouterLink to="/signup">Don't have an account?</RouterLink>
+    <RouterLink to="/signup">Don't have an account?</RouterLink> <br>
     <RouterLink to="/">Back to home</RouterLink>
   </div>
 

@@ -6,10 +6,10 @@
     </div>
 
     <div>
-        <input type="email" v-model="email" placeholder="Email" />
-        <input type="new_password" v-model="new_password" placeholder="New password" />
+        <input type="email" v-model="email" placeholder="Email" /> <br>
+        <input type="new_password" v-model="new_password" placeholder="New password" /> <br>
 
-        <button :disabled="loading" @click="send">{{ loading ? 'Loading...' : 'Reset password' }}</button>
+        <button :disabled="loading" @click="send">{{ loading ? 'Loading...' : 'Reset password' }}</button> <br>
         <p v-if="message" class="error">{{ message }}</p>
     </div>
 

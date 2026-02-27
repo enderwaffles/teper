@@ -15,6 +15,7 @@ import Forgot1 from "@/pages/auth/Forgot1.vue";
 import Forgot2 from "@/pages/auth/Forgot2.vue";
 import User from "@/pages/users/User.vue";
 import Chats from "@/pages/users/Chats.vue";
+import Chat from "@/pages/users/Chat.vue";
 
 const routes = [
     { path: '/', component: Home },
@@ -33,6 +34,7 @@ const routes = [
     { path: '/create_post', component: Create_post, meta: { requiresAuth: true } },
     { path: '/update_post/:id', component: Update_post, meta: { requiresAuth: true } },
     { path: '/chats', component: Chats, meta: { requiresAuth: true } },
+    { path: '/chat/:id', component: Chat, meta: { requiresAuth: true } },
 
 
     

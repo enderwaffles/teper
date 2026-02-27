@@ -23,7 +23,8 @@ class Comment(Base):
     #owners
     post_id = Column(Integer, ForeignKey("posts.id"))
     author_id = Column(Integer, ForeignKey("users.id"))
-    
+    # upload_url = Column(String, nullable=True)
+
     #properties
     post = relationship("Post", back_populates="comments")
     author = relationship("User", back_populates="comments")
