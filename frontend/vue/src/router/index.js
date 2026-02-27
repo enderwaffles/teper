@@ -8,7 +8,7 @@ import Signup from "@/pages/auth/Signup.vue"
 import Posts from "@/pages/posts/Posts.vue"
 import Post from "@/pages/posts/Post.vue"
 import Create_post from "@/pages/posts/Create_post.vue"
-import MyProfile from "@/pages/auth/MyProfile.vue";
+import MyProfile from "@/pages/users/MyProfile.vue";
 import Update_post from "@/pages/posts/Update_post.vue";
 import Verify from "@/pages/auth/Verify.vue";
 import Forgot1 from "@/pages/auth/Forgot1.vue";

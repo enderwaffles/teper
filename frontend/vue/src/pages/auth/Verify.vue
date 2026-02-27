@@ -8,7 +8,7 @@
   <div>
     <input type="incode" v-model="incode" placeholder="Code" />
 
-    <button v-click="verify">{{ loading ? 'Loading...' : 'Verify' }}</button>
+    <button v-on:click="verify">{{ loading ? 'Loading...' : 'Verify' }}</button>
     <p v-if="message">{{ message }}</p>
   </div>
 

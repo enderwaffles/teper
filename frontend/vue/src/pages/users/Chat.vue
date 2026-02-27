@@ -9,7 +9,7 @@
         <p>{{ chat.user1_id == auth.user.id ? chat.user2.email : chat.user1.email }}</p>
         <hr>
         <div v-for="message in chat.messages">
-            <div v-if="message.author_id == auth.user.id" style="color: blue;">{{ message }}</div>
+            <div v-if="message.author_id == auth.user.id" style="color: blue;">YOU: {{ message }}</div>
             <div v-if="message.author_id != auth.user.id">{{ message }}</div>
         </div>
         <hr>

@@ -2,12 +2,14 @@
 # routes
 # chats.py
 
-from fastapi import APIRouter, Depends, HTTPException, Form
+from fastapi import APIRouter, Depends, HTTPException, Form, UploadFile, File
 from sqlalchemy.orm import Session, joinedload
-from typing import List
+from typing import List, Optional
+from datetime import datetime
+import os
 
 from database import get_db
-from models import Chat, Message, User
+from models import Chat, Message, User, MessageUploads
 from auth import get_user, User
 
 router = APIRouter(prefix="/chats", tags=["chats"])
@@ -57,10 +59,12 @@ def create_chat(other_user_id: int, user: User = Depends(get_user), db: Session 
     return chat
 
 
+
 # Отправить сообщение в чат
 @router.post("/{chat_id}/messages")
 def send_message(chat_id: int, 
                  text: str = Form(...), 
+                 files: Optional[List[UploadFile]] = File(None),  
                  user: User = Depends(get_user), 
                  db: Session = Depends(get_db)):
     chat = db.query(Chat).filter(Chat.id == chat_id).first()
@@ -73,6 +77,17 @@ def send_message(chat_id: int,
     db.add(message)
     db.commit()
     db.refresh(message)
+
+    if files:
+        for file in files:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f") 
+            name = f"{user.id}_{timestamp}_{file.filename}"
+            disk_path = f"static/{name}"
+            with open(disk_path, "wb") as f:
+                f.write(file.file.read())
+
+            message_uploads = MessageUploads(message_id=message.id, upload_url=f"/static/{name}")
+
     return message
 
 

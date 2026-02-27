@@ -19,11 +19,11 @@ class Comment(Base):
     #personal
     text = Column(String, nullable=False)
     date = Column(DateTime, default=datetime.utcnow)
+    # upload_url = Column(String, nullable=True)
 
     #owners
     post_id = Column(Integer, ForeignKey("posts.id"))
     author_id = Column(Integer, ForeignKey("users.id"))
-    # upload_url = Column(String, nullable=True)
 
     #properties
     post = relationship("Post", back_populates="comments")

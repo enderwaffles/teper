@@ -13,7 +13,7 @@
     <input type="password" v-model="password" placeholder="Password" /> <br>
     <input type="password" v-model="repeat_password" placeholder="Repeat password" /> <br>
 
-    <button v-click="signup">{{ loading ? 'Loading...' : 'Signup' }}</button> <br>
+    <button v-on:click="signup">{{ loading ? 'Loading...' : 'Signup' }}</button> <br>
     <p v-if="message">{{ message }}</p>
     <RouterLink to="/login">Already have an account?</RouterLink> <br>
     <RouterLink to="/">Back to home</RouterLink> <br>
@@ -66,7 +66,6 @@ async function signup() {
       name: name.value,
       surname: surname.value,
       password: password.value,
-      admin: res.data.user.admin
     })
 
     router.push(`/verify?email=${email.value}`)

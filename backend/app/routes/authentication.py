@@ -57,7 +57,7 @@ def protected(user: User = Depends(get_user)):
 
 @router.post("/signup", status_code=201)
 def signup(data: UserSignup, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.name == data.name).first()
+    user = db.query(User).filter(User.email == data.email).first()
     if user and user.is_verified:
         raise HTTPException(status_code=400, detail="User already is")
     

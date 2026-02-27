@@ -33,8 +33,9 @@ class Message(Base):
     id = Column(Integer, primary_key=True)
 
     #personal
-    text = Column(String(1024), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    text = Column(String(1024), nullable=True)
+    # upload_url = Column(String, nullable=False)
+    date = Column(DateTime, default=datetime.utcnow)
 
     #owner
     chat_id = Column(Integer, ForeignKey("chats.id"))
@@ -42,4 +43,18 @@ class Message(Base):
 
     #properties
     chat = relationship("Chat", back_populates="messages")
-    author = relationship("User")
+    author = relationship("User", foreign_keys=[author_id])
+    uploads = relationship("MessageUploads", back_populates="message", cascade="all, delete-orphan")
+
+
+class MessageUploads(Base):
+    __tablename__ = "messages_uploads"
+    __table_args__ = {"sqlite_autoincrement": True}
+    id = Column(Integer, primary_key=True)
+
+    upload_url = Column(String, nullable=False)
+    
+    message_id = Column(Integer, ForeignKey("messages.id"))
+
+    message = relationship("Message", back_populates="uploads")
+
