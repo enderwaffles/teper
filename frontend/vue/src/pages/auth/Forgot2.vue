@@ -58,17 +58,19 @@ async function reset() {
             email: email.value,
             code: incode.value
         })
+        console.log(res)
+        if (res.status == 200) {
+            auth.login({
+                id: res.data.user.id,
+                email: res.data.user.email,
+                nickname: res.data.user.nickname,
+                name: res.data.user.name,
+                surname: res.data.user.surname,
+                admin: res.data.user.admin
+            })
 
-        auth.login({
-            id: res.data.user.id,
-            email: res.data.user.email,
-            nickname: res.data.user.nickname,
-            name: res.data.user.name,
-            surname: res.data.user.surname,
-            admin: res.data.user.admin
-        })
-
-        router.push('/')
+            router.push('/')
+        }
     }
     catch (error) {
         console.log(error)

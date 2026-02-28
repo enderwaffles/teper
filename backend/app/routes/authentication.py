@@ -150,5 +150,7 @@ def forgot2(data: UserForgot2, response: Response, db: Session = Depends(get_db)
     db.commit()
     db.refresh(user)
 
+    token = create_token(user.id)
+    set_auth_cookie(response, token)
 
     return {"message": "logged in", "token_type": "cookie", "user": user}

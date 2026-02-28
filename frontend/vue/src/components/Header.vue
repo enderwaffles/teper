@@ -24,7 +24,7 @@
                 <RouterLink class="auth-link" to="/myprofile">Profile</RouterLink>
             </div>
         </div>
-    <button v-on:click="logout">Logout</button>
+    <!-- <button v-on:click="logout">Logout</button> -->
 
 
     </header>
@@ -35,11 +35,6 @@
 import Signup from '@/pages/auth/Signup.vue';
 import { useAuthStore } from '@/stores/auth'
 const auth = useAuthStore()
-
-function logout() {
-  auth.logout()
-  router.push('/')
-}
 
 </script>
 
