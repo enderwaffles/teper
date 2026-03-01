@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 from datetime import datetime
 import os
+from pathlib import Path
 
 from database import get_db
 from models import Chat, Message, User, MessageUploads
@@ -29,7 +30,7 @@ def get_user_chats(user: User = Depends(get_user), db: Session = Depends(get_db)
 @router.get("/{chat_id}")
 def get_chat(chat_id: int, user: User = Depends(get_user), db: Session = Depends(get_db)):
     chat = db.query(Chat).filter(Chat.id == chat_id).options(
-        joinedload(Chat.messages), joinedload(Chat.user1), joinedload(Chat.user2)
+        joinedload(Chat.messages).joinedload(Message.uploads)   , joinedload(Chat.user1), joinedload(Chat.user2)
     ).first()
 
     if not chat:
@@ -63,7 +64,7 @@ def create_chat(other_user_id: int, user: User = Depends(get_user), db: Session 
 # Отправить сообщение в чат
 @router.post("/{chat_id}/messages")
 def send_message(chat_id: int, 
-                 text: str = Form(...), 
+                 text: Optional[str] = Form(None), 
                  files: Optional[List[UploadFile]] = File(None),  
                  user: User = Depends(get_user), 
                  db: Session = Depends(get_db)):
@@ -87,7 +88,11 @@ def send_message(chat_id: int,
                 f.write(file.file.read())
 
             message_uploads = MessageUploads(message_id=message.id, upload_url=f"/static/{name}")
+            db.add(message_uploads)
 
+        db.commit()
+
+    db.refresh(message)
     return message
 
 
@@ -100,4 +105,29 @@ def get_messages(chat_id: int, user: User = Depends(get_user), db: Session = Dep
     if user.id not in [chat.user1_id, chat.user2_id]:
         raise HTTPException(status_code=403, detail="Access denied")
 
-    return db.query(Message).filter(Message.chat_id == chat.id).all()
+    messages = db.query(Message).options(
+        joinedload(Message.uploads)
+    ).filter(Message.chat_id == chat.id).all()
+
+    return messages
+
+@router.delete("/messages/{message_id}")
+def delete_message(message_id: int, user: User = Depends(get_user), db: Session = Depends(get_db)):
+    message = db.query(Message).filter(Message.id == message_id).first()
+    if not message:
+        raise HTTPException(status_code=404)
+    if message.author_id != user.id:
+        raise HTTPException(status_code=403)
+    
+    uploads = db.query(MessageUploads).filter(MessageUploads.message_id == message.id).all()
+    for upload in uploads:
+        filename = upload.upload_url.replace("/static/", "")
+        file_path = Path("static") / filename
+        if file_path.exists():
+            file_path.unlink()
+        db.delete(upload)
+
+    db.delete(message)
+    db.commit()
+
+    return None

@@ -4,16 +4,29 @@
     <div>
         <h1>Chat</h1>
     </div>
-    
+
     <div v-if="chat">
         <p>{{ chat.user1_id == auth.user.id ? chat.user2.email : chat.user1.email }}</p>
         <hr>
         <div v-for="message in chat.messages">
-            <div v-if="message.author_id == auth.user.id" style="color: blue;">YOU: {{ message }}</div>
-            <div v-if="message.author_id != auth.user.id">{{ message }}</div>
+            <div v-if="message.author_id == auth.user.id" style="color: blue;">
+                <p>YOU: {{ message.text }}</p>
+                <button v-on:click="delete_message(message.id)">Delete</button>
+
+                <div v-if="message.uploads.length">
+                    <div v-for="upload in message.uploads" :key="upload.id">
+                        <img :src="api.defaults.baseURL + upload.upload_url" style="width:200px;">
+                    </div>
+                </div>
+
+            </div>
+            <div v-if="message.author_id != auth.user.id">
+                <p>{{ message.text }}</p>
+            </div>
         </div>
         <hr>
         <input type="text" v-model="message" placeholder="message">
+        <input type="file" multiple v-on:change="onFileChange">
         <button v-on:click="send_message">Send</button>
     </div>
 
@@ -37,6 +50,7 @@ const router = useRouter()
 //data
 let chat_id = route.params.id
 let chat = ref("")
+let files = ref([])
 
 let message = ref("")
 
@@ -46,12 +60,33 @@ onMounted(async () => {
     chat.value = res.data
 })
 
+function onFileChange(e) {
+    files.value = Array.from(e.target.files)
+}
+
 async function send_message() {
+
     let form = new FormData()
     form.append("text", message.value)
-    const res = await api.post(`/chats/${chat_id}/messages`, form)
-    chat.value.messages.push(res.data)
+
+    files.value.forEach(file => {
+        form.append("files", file)
+    })
+
+    await api.post(`/chats/${chat_id}/messages`, form)
+    // chat.value.messages.push(res.data)
     message.value = ""
+    files.value = []
+
+    // заново подгружаем чат
+    const res = await api.get(`/chats/${chat_id}`)
+    chat.value = res.data
+
+}
+
+async function delete_message(message_id) {
+    const res = await api.delete(`chats/messages/${message_id}`)
+    chat.value.messages = chat.value.messages.filter(m => m.id !== message_id)
 }
 
 </script>

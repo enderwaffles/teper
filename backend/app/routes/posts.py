@@ -63,29 +63,29 @@ def create_post(title: str = Form(...),
     if files and len(files) > 10:
         raise HTTPException(status_code=400)
 
-    obj = Post(title=title, text=text, author_id=user.id)
-    db.add(obj)
+    post = Post(title=title, text=text, author_id=user.id)
+    db.add(post)
     db.commit()
-    db.refresh(obj)
+    db.refresh(post)
 
     if files:
         for file in files:
 
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f") 
-            name = f"{obj.author_id}_{timestamp}_{obj.id}_{file.filename}"
+            name = f"{post.author_id}_{timestamp}_{post.id}_{file.filename}"
             disk_path = f"static/{name}"
 
             with open(disk_path, "wb") as f:
                 f.write(file.file.read())
 
-            posts_uploads = PostsUploads(post_id=obj.id, upload_url=f"/static/{name}")
+            posts_uploads = PostsUploads(post_id=post.id, upload_url=f"/static/{name}")
 
             db.add(posts_uploads)
 
         db.commit()
 
-    db.refresh(obj)
-    return obj
+    db.refresh(post)
+    return post
 
 @router.delete("/{id}", status_code=204)
 def delete_post(id: int, 
