@@ -35,6 +35,7 @@ let title = ref("")
 let text = ref("")
 let files = ref([])
 
+let message = ref("")
 
 //functions
 function onFileChange(e) {
@@ -57,6 +58,7 @@ async function send() {
   
   const res = await api.post("/posts", form)
   router.push("/posts")
+  message = res
 }
 
 </script>

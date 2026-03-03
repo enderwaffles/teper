@@ -55,6 +55,15 @@ def protected(user: User = Depends(get_user)):
         "user": user
     }
 
+@router.get("/admin_panel")
+def protected(user: User = Depends(get_user)):
+    if user.admin == False:
+        raise HTTPException(status_code=403)
+    return {
+        "message": "access free",
+        "user": user
+    }
+
 @router.post("/signup", status_code=201)
 def signup(data: UserSignup, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == data.email).first()
