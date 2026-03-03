@@ -20,6 +20,8 @@
     </div>
     <p>{{ post.date }}</p>
     <p>{{ post.author.email }}</p>
+    <button v-if="post.author.id == auth.user.id" v-on:click="delete_post(post.id)">Delete</button> <br>
+    <button v-if="post.author.id == auth.user.id" v-on:click="update_post(post.id)">Update</button> <br>
     <RouterLink :to="`/user/${post.author.nickname}`">Open user</RouterLink> <br>
     <RouterLink :to="`/posts/${post.id}`">Open post</RouterLink>
     <br> <br> <br>
@@ -52,6 +54,15 @@ onMounted(async () => {
     const res = await api.get('/posts')
     posts.value = res.data
 })
+
+async function delete_post(post_id) {
+  const res = await api.delete(`/posts/${post_id}`)
+  router.push('/posts')
+}
+
+async function update_post(post_id) {
+  router.push(`/update_post/${post_id}`)
+}
 
 </script>
 

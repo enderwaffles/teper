@@ -41,6 +41,6 @@ config = {
 }
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", reload=True, host= config["host"], port=config["post"])
+    uvicorn.run("main:app", reload=True, host=config["host"], port=config["port"])
 
 print(documentary)

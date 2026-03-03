@@ -20,6 +20,7 @@
     <p>{{ post.date }}</p>
     <p>{{ post.author.email }}</p>
     <button v-if="post.author.id == auth.user.id" v-on:click="delete_post">Delete</button>
+    <button v-if="post.author.id == auth.user.id" v-on:click="update_post">Update</button>
 
     <hr>
 
@@ -73,6 +74,11 @@ async function delete_post() {
   const res = await api.delete(`/posts/${post_id}`)
   router.push('/posts')
 }
+
+async function update_post() {
+  router.push(`/update_post/${post_id}`)
+}
+
 
 let comment_text = ref("")
 
