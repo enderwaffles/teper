@@ -37,11 +37,10 @@ documentary = "\033[35m Documentary: \033[0m \n   \033[34m http://localhost:8000
 
 config = {
     "host": "localhost",
-    "post": 8000
+    "port": 8000
 }
 
 if __name__ == "__main__":
-    main()
     uvicorn.run("main:app", reload=True, host= config["host"], port=config["post"])
 
 print(documentary)
