@@ -22,6 +22,7 @@
             <div v-else>
                 <RouterLink v-if="auth.session" to="/chats">Chats </RouterLink>
                 <RouterLink class="auth-link" to="/myprofile">Profile</RouterLink>
+                <img :src="api.defaults.baseURL + auth.user.avatar_url" alt="" style="width: 40px;">
             </div>
         </div>
     <!-- <button v-on:click="logout">Logout</button> -->
@@ -34,7 +35,10 @@
 <script setup>
 import Signup from '@/pages/auth/Signup.vue';
 import { useAuthStore } from '@/stores/auth'
+import api from '@/api/api';
 const auth = useAuthStore()
+
+
 
 </script>
 
@@ -48,8 +52,8 @@ h1 {
     align-items: center;
     padding: 15px 30px;
 
-    background: rgb(20, 20, 20);
-    border-bottom: 1px solid rgb(30, 30, 30);
+    background: rgb(10, 10, 10);
+    border-bottom: 1px solid rgb(20, 20, 20);
 }
 
 /* Лого */

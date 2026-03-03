@@ -6,6 +6,8 @@
   </div>
 
   <div v-if="user">
+    <p>{{ auth.user }}</p>
+
     <img :src="api.defaults.baseURL + user.avatar_url" alt="" style="width: 300px;"> <br>
     <input type="file" v-on:change="onFileChange">
     <button v-on:click="add_avatar">Add avatar</button>
@@ -39,7 +41,8 @@ const router = useRouter()
 let user = ref(null)
 let file = ref(null)
 
-
+console.log("AOAOAOAOO")
+console.log(auth.user)
 //functions
 onMounted(async () => {
   const res = await api.get(`/users/${auth.user.nickname}`)

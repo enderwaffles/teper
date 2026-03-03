@@ -51,14 +51,7 @@ async function verify() {
 
     console.log(res)
     if (res.status == 200) {
-        auth.login({
-            id: res.data.user.id,
-            email: res.data.user.email,
-            nickname: res.data.user.nickname,
-            name: res.data.user.name,
-            surname: res.data.user.surname,
-            admin: res.data.user.admin
-        })
+        auth.login(res.data.user)
 
         router.push('/')
     }

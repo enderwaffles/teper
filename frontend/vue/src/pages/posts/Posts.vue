@@ -5,9 +5,9 @@
     <h1>Posts</h1>
   </div>
 
-  <div>
+  <div class="posts">
 
-    <div v-for="post in posts" :key="post.id">
+    <div class="post" v-for="post in posts" :key="post.id">
       <p>{{ post.id }}</p>
       <p>{{ post.title }}</p>
     <p>{{ post.text }}</p>
@@ -26,6 +26,7 @@
     <RouterLink :to="`/posts/${post.id}`">Open post</RouterLink>
     <br> <br> <br>
     </div>
+
   </div>
 
 </template>

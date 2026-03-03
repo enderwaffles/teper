@@ -10,8 +10,8 @@ export const useAuthStore = defineStore("auth", () => {
     JSON.parse(localStorage.getItem("user"))
   );
 
-  function login({ id, email, nickname, name, surname, admin }) {
-    user.value = { id, email, nickname, name, surname, admin };
+  function login(getuser) {
+    user.value = getuser;
     session.value = true;
 
     localStorage.setItem("session", "true");
