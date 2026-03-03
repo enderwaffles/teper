@@ -91,4 +91,6 @@ async function delete_message(message_id) {
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

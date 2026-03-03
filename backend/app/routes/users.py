@@ -38,7 +38,7 @@ def user(nickname: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return obj
 
-@router.post("/")
+@router.post("/avatar")
 def add_avatar(file: Optional[UploadFile] = File(None), 
                db: Session = Depends(get_db), 
                user: User = Depends(get_user)

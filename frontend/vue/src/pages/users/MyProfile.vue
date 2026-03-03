@@ -6,7 +6,9 @@
   </div>
 
   <div v-if="user">
-    <img :src="api.defaults.baseURL + user.avatar_url" alt="" style="width: 300px;">
+    <img :src="api.defaults.baseURL + user.avatar_url" alt="" style="width: 300px;"> <br>
+    <input type="file" v-on:change="onFileChange">
+    <button v-on:click="add_avatar">Add avatar</button>
     <p><b>Email:</b> {{ user.email }}</p>
     <p><b>Nickname:</b> {{ user.nickname }}</p>
     <p><b>Name:</b> {{ user.name }}</p>
@@ -35,6 +37,7 @@ const router = useRouter()
 
 //data
 let user = ref(null)
+let file = ref(null)
 
 
 //functions
@@ -46,6 +49,23 @@ onMounted(async () => {
 function logout() {
   auth.logout()
   router.push('/')
+}
+
+function onFileChange(e) {
+  file.value = e.target.files[0]
+}
+
+async function add_avatar() {
+  let form = new FormData()
+
+  if (file.value) {
+    form.append("file", file.value)
+  }
+
+  await api.post('/users/avatar', form)
+  const res = await api.get(`/users/${auth.user.nickname}`)
+  user.value = res.data
+
 }
 
 </script>
