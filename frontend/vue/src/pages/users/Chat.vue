@@ -22,6 +22,11 @@
             </div>
             <div v-if="message.author_id != auth.user.id">
                 <p>{{ message.text }}</p>
+                <div v-if="message.uploads.length">
+                    <div v-for="upload in message.uploads" :key="upload.id">
+                        <img :src="api.defaults.baseURL + upload.upload_url" style="width:200px;">
+                    </div>
+                </div>
             </div>
         </div>
         <hr>

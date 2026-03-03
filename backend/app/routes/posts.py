@@ -42,7 +42,7 @@ def post(id: int,
     obj = db.query(Post).options(
         joinedload(Post.author),
         joinedload(Post.uploads),
-        selectinload(Post.comments)
+        selectinload(Post.comments).joinedload(Comment.author)
         ).filter(Post.id == id).first()
 
     if not obj:

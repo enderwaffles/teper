@@ -30,8 +30,12 @@
     </div>
 
     <hr>
-    
-    <p>{{ post.comments }}</p>
+    <div v-for="comment in post.comments">
+      <p>{{ comment.author.email }}</p> 
+      <p>{{ comment.text }}</p> 
+      <button v-if="auth.user.id == comment.author.id" v-on:click="delete_comment(comment.id)">Delete</button> <br>
+    </div>
+    <!-- <p>{{ post.comments }}</p> -->
     
     <hr>
 
@@ -71,6 +75,7 @@ async function delete_post() {
 }
 
 let comment_text = ref("")
+
 async function send_comment() {
 
   let form = new FormData()
@@ -82,6 +87,12 @@ async function send_comment() {
   post.value.comments.push(res.data)
 
   comment_text.value = ""
+}
+
+async function delete_comment(comment_id) {
+  await api.delete(`posts/comments/${comment_id}`)
+  const res = await api.get(`/posts/${post_id}`)
+  post.value = res.data
 }
 
 </script>
