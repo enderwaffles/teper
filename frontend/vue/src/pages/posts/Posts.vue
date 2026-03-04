@@ -9,22 +9,30 @@
 
     <div class="post" v-for="post in sortedPosts" :key="post.id">
 
-      <p>{{ post.id }}</p>
-      <p>{{ post.title }}</p>
-      <p>{{ post.text }}</p>
+      <!-- <p>{{ post.id }}</p> -->
       <!-- <img :src="api.defaults.baseURL + post.upload_url" alt="" style="width: 200px;"> -->
-
+      
+      <!-- there are max 10 photos -->
+      <!-- <p>{{ post.author.email }}</p> -->
+      
+      <div class="user-card">
+        <img class="avatar" :src="api.defaults.baseURL + post.author.avatar_url" alt="">
+        <RouterLink :to="`/user/${post.author.nickname}`">{{ post.author.email }}</RouterLink> <br>
+      </div>
+      
       <div v-if="post.uploads.length">
         <div v-for="upload in post.uploads" :key="upload.id">
-          <img :src="api.defaults.baseURL + upload.upload_url" style="width:200px;">
+          <img class="post-image" :src="api.defaults.baseURL + upload.upload_url">
         </div>
       </div>
+      <p>{{ post.text }}</p>
+      
+      <!-- <p>{{ post.title }}</p> -->
+
       <p>{{ post.date }}</p>
-      <p>{{ post.author.email }}</p>
-      <button v-if="post.author.id == auth.user.id" v-on:click="delete_post(post.id)">Delete</button> <br>
-      <button v-if="post.author.id == auth.user.id" v-on:click="update_post(post.id)">Update</button> <br>
-      <RouterLink :to="`/user/${post.author.nickname}`">Open user</RouterLink> <br>
-      <RouterLink :to="`/posts/${post.id}`">Open post</RouterLink>
+      <RouterLink :to="`/posts/${post.id}`">Open post</RouterLink> <br> <br>
+      <button class="delete-button" v-if="post.author.id == auth.user.id" v-on:click="delete_post(post.id)">Delete</button>
+      <button class="update-button" v-if="post.author.id == auth.user.id" v-on:click="update_post(post.id)">Update</button>
       <br> <br> <br>
 
     </div>
@@ -77,5 +85,26 @@ async function update_post(post_id) {
 
 
 <style scoped>
-
+body {
+    margin: 0;
+    background-color: rgb(15, 15, 15);
+    color: rgb(200, 200, 200);
+}
+.posts {
+  display: grid;
+  gap: 20px;
+  margin: 20px;
+  grid-template-columns: repeat(3, 1fr);
+}
+.post {
+  background-color: rgb(20, 20, 20);
+  padding: 20px;
+  border-radius: 5%;
+}
+.user-card {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  gap: 10px;
+}
 </style>

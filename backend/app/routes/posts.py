@@ -51,7 +51,8 @@ def post(id: int,
     return obj
 
 @router.post("/", status_code=201)
-def create_post(title: str = Form(...),
+def create_post(
+    # title: str = Form(...),
                 text: str = Form(...),
                 files: Optional[List[UploadFile]] = File(None),  
                 db: Session = Depends(get_db),
@@ -63,7 +64,7 @@ def create_post(title: str = Form(...),
     if files and len(files) > 10:
         raise HTTPException(status_code=400)
 
-    post = Post(title=title, text=text, author_id=user.id)
+    post = Post(title="title", text=text, author_id=user.id)
     db.add(post)
     db.commit()
     db.refresh(post)

@@ -6,12 +6,15 @@
   </div>
 
   <div v-if="user">
+    <img :src="api.defaults.baseURL + user.avatar_url" alt="" style="width: 300px;"> <br>
     <p><b>Email:</b> {{ user.email }}</p>
     <p><b>Nickname:</b> {{ user.nickname }}</p>
     <p><b>Name:</b> {{ user.name }}</p>
     <p><b>Surname:</b> {{ user.surname }}</p>
     <button v-on:click="chat">Chat</button>
     <!-- <RouterLink :to="`/chat/${chat.id}`">Chat</RouterLink> -->
+    <hr>
+    <h1>Posts</h1>
   </div>
 
 </template>

@@ -74,11 +74,11 @@ def signup(data: UserSignup, db: Session = Depends(get_db)):
     code = sendcode(data.email) 
 
 
-    obj = User(email=data.email, 
-            nickname=data.nickname, 
-            name=data.name.capitalize(),
-            surname=data.surname.capitalize(), 
-            password=hashed_password,
+    obj = User(email=data.email.strip(), 
+            nickname=data.nickname.strip(), 
+            name=data.name.strip().capitalize(),
+            surname=data.surname.strip().capitalize(), 
+            password=hashed_password.strip(),
             is_verified=False,
             email_code=code)
     db.add(obj)

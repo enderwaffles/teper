@@ -6,7 +6,7 @@
   </div>
 
   <div>
-    <input type="text" v-model="title" placeholder="Title">
+    <!-- <input type="text" v-model="title" placeholder="Title"> -->
     <input type="text" v-model="text" placeholder="Text">
     <input type="file" multiple v-on:change="onFileChange">
 
@@ -45,7 +45,7 @@ function onFileChange(e) {
 async function send() {
 
   let form = new FormData()
-  form.append("title", title.value)
+  // form.append("title", title.value)
   form.append("text", text.value)
   
   // if (files.value) {

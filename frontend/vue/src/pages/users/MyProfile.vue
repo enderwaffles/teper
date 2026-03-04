@@ -6,7 +6,8 @@
   </div>
 
   <div v-if="user">
-    <p>{{ auth.user }}</p>
+    <!-- <p>{{ auth.user }}</p> -->
+    <p>{{ user.value }}</p>
 
     <img :src="api.defaults.baseURL + user.avatar_url" alt="" style="width: 300px;"> <br>
     <input type="file" v-on:change="onFileChange">
@@ -17,6 +18,7 @@
     <p><b>Surname:</b> {{ user.surname }}</p>
 
     <p v-if="auth.user.admin" style="color: red;">You are admin</p>
+    <RouterLink to="/admin_panel">Admin panel</RouterLink> <br> <br>
     <button v-on:click="logout">Logout</button>
   </div>
 

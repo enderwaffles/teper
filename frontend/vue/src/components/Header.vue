@@ -52,8 +52,8 @@ h1 {
     align-items: center;
     padding: 15px 30px;
 
-    background: rgb(10, 10, 10);
-    border-bottom: 1px solid rgb(20, 20, 20);
+    background: rgb(15, 15, 15);
+    border-bottom: 1px solid rgb(25, 25, 25);
 }
 
 /* Лого */

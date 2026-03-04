@@ -6,8 +6,13 @@
     </div>
 
     <div v-if="chat">
+        
         <p>{{ chat.user1_id == auth.user.id ? chat.user2.email : chat.user1.email }}</p>
+        <!-- <img :src="api.defaults.baseURL + chat.user1.avatar_url" alt="" style="width: 60px;"> -->
+        <img :src="api.defaults.baseURL + (chat.user1_id == auth.user.id ? chat.user2.avatar_url : chat.user1.avatar_url)"
+            alt="" style="width: 60px;">
         <hr>
+
         <div v-for="message in chat.messages">
             <div v-if="message.author_id == auth.user.id" style="color: blue;">
                 <p>YOU: {{ message.text }}</p>
@@ -96,6 +101,4 @@ async function delete_message(message_id) {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

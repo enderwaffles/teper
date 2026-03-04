@@ -12,7 +12,7 @@ from datetime import datetime
 
 #modules
 from database import get_db
-from models import User
+from models import User, Post
 from schemas.user import UserResponse
 from auth import User, get_user
 
@@ -32,7 +32,7 @@ def users(db: Session = Depends(get_db)):
 @router.get("/{nickname}")
 def user(nickname: str, db: Session = Depends(get_db)):
     obj = db.query(User).options(
-        joinedload(User.posts)
+        joinedload(User.posts).joinedload(Post.uploads)
     ).filter(User.nickname == nickname).first()
     if not obj:
         raise HTTPException(status_code=404, detail="User not found")

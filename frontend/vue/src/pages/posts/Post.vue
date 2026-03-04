@@ -6,8 +6,13 @@
   </div>
 
   <div v-if="post">
-    <p>{{ post.id }}</p>
-    <p>{{ post.title }}</p>
+
+    <div class="user-card">
+      <img class="avatar" :src="api.defaults.baseURL + post.author.avatar_url" alt="">
+      <RouterLink :to="`/user/${post.author.nickname}`">{{ post.author.email }}</RouterLink> <br>
+    </div>
+    <!-- <p>{{ post.id }}</p> -->
+    <!-- <p>{{ post.title }}</p> -->
     <p>{{ post.text }}</p>
 
     <!-- <img :src="api.defaults.baseURL + post.upload_url" alt="" style="width: 200px;">  -->
@@ -19,8 +24,8 @@
 
     <p>{{ post.date }}</p>
     <p>{{ post.author.email }}</p>
-    <button v-if="post.author.id == auth.user.id" v-on:click="delete_post">Delete</button>
-    <button v-if="post.author.id == auth.user.id" v-on:click="update_post">Update</button>
+    <button class="delete-button" v-if="post.author.id == auth.user.id" v-on:click="delete_post">Delete</button>
+    <button class="update-button" v-if="post.author.id == auth.user.id" v-on:click="update_post">Update</button>
 
     <hr>
 
@@ -34,7 +39,7 @@
     <div v-for="comment in post.comments">
       <p>{{ comment.author.email }}</p> 
       <p>{{ comment.text }}</p> 
-      <button v-if="auth.user.id == comment.author.id" v-on:click="delete_comment(comment.id)">Delete</button> <br>
+      <button class="delete-button" v-if="auth.user.id == comment.author.id" v-on:click="delete_comment(comment.id)">Delete</button> <br>
     </div>
     <!-- <p>{{ post.comments }}</p> -->
     
